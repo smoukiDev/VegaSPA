@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VegaSPA.Data;
+using AutoMapper;
 
 namespace VegaSPA
 {
@@ -24,6 +25,7 @@ namespace VegaSPA
         {
             services.AddDbContext<VegaDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("VegaDB")));
+            services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory
