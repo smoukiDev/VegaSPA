@@ -3,34 +3,62 @@ using System.Collections.Generic;
 
 namespace VegaSPA.Migrations
 {
-    // TODO: Refactor repeating SQL Statements
     public partial class SeedDatabase : Migration
-    {        
+    {    
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("INSERT INTO Makes (Name) VALUES ('Make1')");
-            migrationBuilder.Sql("INSERT INTO Makes (Name) VALUES ('Make2')");
-            migrationBuilder.Sql("INSERT INTO Makes (Name) VALUES ('Make3')");
- 
-            migrationBuilder.Sql("INSERT INTO Models (Name, MakeId) VALUES ('Make1-ModelA', (SELECT ID FROM Makes WHERE Name = 'Make1'))");
-            migrationBuilder.Sql("INSERT INTO Models (Name, MakeId) VALUES ('Make1-ModelB', (SELECT ID FROM Makes WHERE Name = 'Make1'))");
-            migrationBuilder.Sql("INSERT INTO Models (Name, MakeId) VALUES ('Make1-ModelC', (SELECT ID FROM Makes WHERE Name = 'Make1'))");
+            List<string> makes = this.InitializeMakes();
+            List<string> models = this.InitializeModels();
 
-            migrationBuilder.Sql("INSERT INTO Models (Name, MakeId) VALUES ('Make1-ModelA', (SELECT ID FROM Makes WHERE Name = 'Make2'))");
-            migrationBuilder.Sql("INSERT INTO Models (Name, MakeId) VALUES ('Make1-ModelB', (SELECT ID FROM Makes WHERE Name = 'Make2'))");
-            migrationBuilder.Sql("INSERT INTO Models (Name, MakeId) VALUES ('Make1-ModelC', (SELECT ID FROM Makes WHERE Name = 'Make2'))");
+            foreach (var make in makes)
+            {
+                migrationBuilder.Sql($"INSERT INTO Makes (Name) VALUES ('{make}')");
+            }
 
-            
-            migrationBuilder.Sql("INSERT INTO Models (Name, MakeId) VALUES ('Make1-ModelA', (SELECT ID FROM Makes WHERE Name = 'Make3'))");
-            migrationBuilder.Sql("INSERT INTO Models (Name, MakeId) VALUES ('Make1-ModelB', (SELECT ID FROM Makes WHERE Name = 'Make3'))");
-            migrationBuilder.Sql("INSERT INTO Models (Name, MakeId) VALUES ('Make1-ModelC', (SELECT ID FROM Makes WHERE Name = 'Make3'))");
+            foreach (var model in models)
+            {
+                string subQuery = $"SELECT ID FROM Makes WHERE Name = '{model.Split('-').GetValue(0)}'";
+                migrationBuilder.Sql($"INSERT INTO Models (Name, MakeId) VALUES ('{model}', ({subQuery}))");              
+            }
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
-        {           
-            migrationBuilder.Sql("DELETE FROM Makes WHERE Name = 'Make1' ");
-            migrationBuilder.Sql("DELETE FROM Makes WHERE Name = 'Make2' ");
-            migrationBuilder.Sql("DELETE FROM Makes WHERE Name = 'Make3' ");            
+        {
+            List<string> makes = this.InitializeMakes();
+            foreach (var make in makes)
+            {
+                migrationBuilder.Sql($"DELETE FROM Makes WHERE Name = '{make}' ");
+            }            
         }
+        
+        private List<string> InitializeMakes()
+        {
+            var makes = new List<string>()
+            {
+                "Make1",
+                "Make2",
+                "Make3"
+            };
+
+            return makes;                     
+        }
+
+        private List<string> InitializeModels()
+        {
+            var models = new List<string>()
+            {
+                "Make1-ModelA",
+                "Make1-ModelB",
+                "Make1-ModelC",
+                "Make2-ModelA",
+                "Make2-ModelB",
+                "Make2-ModelC",
+                "Make3-ModelA",
+                "Make3-ModelB",
+                "Make3-ModelC"
+            };
+
+            return models;                     
+        }        
     }
 }
