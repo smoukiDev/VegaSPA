@@ -1,0 +1,4 @@
+// Get collection of all makes and models assocociated with them.
+
+@host = localhost:5001
+GET https://{{host}}/api/makes
