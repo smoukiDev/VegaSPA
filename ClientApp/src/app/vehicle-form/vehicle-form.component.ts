@@ -13,10 +13,7 @@ export class VehicleFormComponent implements OnInit {
 
    // TODO: rxjs & observables
   ngOnInit() {
-    this.makeService
-    .getMakes()
-    .subscribe(makes => {
-      this.makes = makes;
-    } );
+    this.makeService.getMakes()
+    .subscribe(makes => this.makes = makes); 
   }
 }
