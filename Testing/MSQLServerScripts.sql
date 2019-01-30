@@ -1,0 +1,2 @@
+SELECT * FROM Makes;
+SELECT * FROM Models;
