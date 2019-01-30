@@ -10,7 +10,6 @@ export class MakeService {
 
   constructor(private http: HttpClient) { }
 
-  // TODO: rxjs & observables
   getMakes(){
     return this.http.get('/api/makes');
   }

@@ -8,12 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vehicle-form.component.css']
 })
 export class VehicleFormComponent implements OnInit {
-  makes;
+  makes: any[];
+  vihicle: any = {};
+  models: any[];
   constructor(private makeService : MakeService) { }
 
-   // TODO: rxjs & observables
   ngOnInit() {
     this.makeService.getMakes()
-    .subscribe(makes => this.makes = makes); 
+    .subscribe(makes => this.makes = makes as any); 
+  }
+
+  // TODO: It could be implemented using GET Request by Id
+  //       But model in this case probably won't contain collection property.
+  onMakeChange(){
+    var selectedMake = this.makes.find(m => m.id == this.vihicle.make);    
+    this.models = selectedMake ? selectedMake.models : [];
   }
 }
