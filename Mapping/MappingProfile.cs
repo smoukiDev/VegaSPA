@@ -10,6 +10,7 @@ namespace VegaSPA.Mapping
         {
             CreateMap<Make, MakeViewModel>();
             CreateMap<Model, ModelViewModel>();
+            CreateMap<Feature, FeatureViewModel>();
         }
     }
 }
