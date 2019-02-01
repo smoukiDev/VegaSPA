@@ -1,4 +1,25 @@
 // Get collection of all makes and models assocociated with them.
 
 @host = localhost:5001
-GET https://{{host}}/api/makes
+//GET https://{{host}}/api/makes
+
+// TODO: Make Post Request work
+POST https://localhost:5001/api/vehicles
+Content-Type: application/json" 
+
+{
+	"modelId": 1,
+	"isRegistered": true,
+	"contactInfo": {
+	
+		"contactName": "name",
+		"contactPhone": "phone",
+		"contactEmail": "email"
+	},
+	"lastModified": '2000-01-01',
+	"vehicleFeatures": [
+		{"featureId": 1},
+		{"featureId": 2},
+		{"featureId": 3}
+	]
+}
