@@ -13,5 +13,12 @@ namespace VegaSPA.Data
 
         public DbSet<Make> Makes { get; set; }
         public DbSet<Feature> Features {get; set;}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Composite primary key definition
+            modelBuilder.Entity<VihicleFeature>()
+            .HasKey(vf => new {vf.VihicleId, vf.FeatureId});
+        }
     }
 }
