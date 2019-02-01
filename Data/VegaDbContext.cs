@@ -5,6 +5,7 @@ namespace VegaSPA.Data
 {
     public class VegaDbContext : DbContext
     {
+        // TODO: Refactor data annotations with Fluent API
         public VegaDbContext(DbContextOptions<VegaDbContext> options)
             :base(options)
         {           

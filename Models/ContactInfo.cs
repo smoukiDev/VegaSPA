@@ -5,7 +5,8 @@ namespace VegaSPA.Models
 {
     [Owned]
     public class ContactInfo
-    {       
+    {
+        // TODO: Special Attributes -> EmailAdress and Phone       
         [Required]
         [StringLength(255)]
         public string ContactName { get; set; }
