@@ -10,8 +10,8 @@ using VegaSPA.Data;
 namespace VegaSPA.Migrations
 {
     [DbContext(typeof(VegaDbContext))]
-    [Migration("20190201101435_AddVihicle")]
-    partial class AddVihicle
+    [Migration("20190201152553_AddVehicle")]
+    partial class AddVehicle
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,7 +70,7 @@ namespace VegaSPA.Migrations
                     b.ToTable("Models");
                 });
 
-            modelBuilder.Entity("VegaSPA.Models.Vihicle", b =>
+            modelBuilder.Entity("VegaSPA.Models.Vehicle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,17 +89,17 @@ namespace VegaSPA.Migrations
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("VegaSPA.Models.VihicleFeature", b =>
+            modelBuilder.Entity("VegaSPA.Models.VehicleFeature", b =>
                 {
-                    b.Property<int>("VihicleId");
+                    b.Property<int>("VehicleId");
 
                     b.Property<int>("FeatureId");
 
-                    b.HasKey("VihicleId", "FeatureId");
+                    b.HasKey("VehicleId", "FeatureId");
 
                     b.HasIndex("FeatureId");
 
-                    b.ToTable("VihicleFeatures");
+                    b.ToTable("VehicleFeatures");
                 });
 
             modelBuilder.Entity("VegaSPA.Models.Model", b =>
@@ -110,7 +110,7 @@ namespace VegaSPA.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("VegaSPA.Models.Vihicle", b =>
+            modelBuilder.Entity("VegaSPA.Models.Vehicle", b =>
                 {
                     b.HasOne("VegaSPA.Models.Model", "Model")
                         .WithMany()
@@ -119,7 +119,7 @@ namespace VegaSPA.Migrations
 
                     b.OwnsOne("VegaSPA.Models.ContactInfo", "ContactInfo", b1 =>
                         {
-                            b1.Property<int>("VihicleId")
+                            b1.Property<int>("VehicleId")
                                 .ValueGeneratedOnAdd()
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -136,23 +136,23 @@ namespace VegaSPA.Migrations
 
                             b1.ToTable("Vehicles");
 
-                            b1.HasOne("VegaSPA.Models.Vihicle")
+                            b1.HasOne("VegaSPA.Models.Vehicle")
                                 .WithOne("ContactInfo")
-                                .HasForeignKey("VegaSPA.Models.ContactInfo", "VihicleId")
+                                .HasForeignKey("VegaSPA.Models.ContactInfo", "VehicleId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
-            modelBuilder.Entity("VegaSPA.Models.VihicleFeature", b =>
+            modelBuilder.Entity("VegaSPA.Models.VehicleFeature", b =>
                 {
                     b.HasOne("VegaSPA.Models.Feature", "Feature")
-                        .WithMany("VihicleFeatures")
+                        .WithMany("VehicleFeatures")
                         .HasForeignKey("FeatureId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("VegaSPA.Models.Vihicle", "Vihicle")
-                        .WithMany("VihicleFeatures")
-                        .HasForeignKey("VihicleId")
+                    b.HasOne("VegaSPA.Models.Vehicle", "Vehicle")
+                        .WithMany("VehicleFeatures")
+                        .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

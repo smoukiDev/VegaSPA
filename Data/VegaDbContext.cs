@@ -17,8 +17,8 @@ namespace VegaSPA.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Composite primary key definition
-            modelBuilder.Entity<VihicleFeature>()
-            .HasKey(vf => new {vf.VihicleId, vf.FeatureId});
+            modelBuilder.Entity<VehicleFeature>()
+            .HasKey(vf => new {vf.VehicleId, vf.FeatureId});
         }
     }
 }

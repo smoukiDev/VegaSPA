@@ -2,12 +2,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VegaSPA.Models
 {
-    [Table("VihicleFeatures")]
-    public class VihicleFeature
+    [Table("VehicleFeatures")]
+    public class VehicleFeature
     {
-        public int VihicleId { get; set; }
+        public int VehicleId { get; set; }
         
-        public Vihicle Vihicle { get; set; }
+        public Vehicle Vehicle { get; set; }
 
         public int FeatureId { get; set; }
 

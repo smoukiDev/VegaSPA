@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VegaSPA.Migrations
 {
-    public partial class AddVihicle : Migration
+    public partial class AddVehicle : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,44 +33,44 @@ namespace VegaSPA.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "VihicleFeatures",
+                name: "VehicleFeatures",
                 columns: table => new
                 {
-                    VihicleId = table.Column<int>(nullable: false),
+                    VehicleId = table.Column<int>(nullable: false),
                     FeatureId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VihicleFeatures", x => new { x.VihicleId, x.FeatureId });
+                    table.PrimaryKey("PK_VehicleFeatures", x => new { x.VehicleId, x.FeatureId });
                     table.ForeignKey(
-                        name: "FK_VihicleFeatures_Features_FeatureId",
+                        name: "FK_VehicleFeatures_Features_FeatureId",
                         column: x => x.FeatureId,
                         principalTable: "Features",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_VihicleFeatures_Vehicles_VihicleId",
-                        column: x => x.VihicleId,
+                        name: "FK_VehicleFeatures_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_VehicleFeatures_FeatureId",
+                table: "VehicleFeatures",
+                column: "FeatureId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_ModelId",
                 table: "Vehicles",
                 column: "ModelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VihicleFeatures_FeatureId",
-                table: "VihicleFeatures",
-                column: "FeatureId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "VihicleFeatures");
+                name: "VehicleFeatures");
 
             migrationBuilder.DropTable(
                 name: "Vehicles");

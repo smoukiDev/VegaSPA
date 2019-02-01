@@ -7,11 +7,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace VegaSPA.Models
 {
     [Table("Vehicles")]
-    public class Vihicle
+    public class Vehicle
     {
-        public Vihicle()
+        public Vehicle()
         {
-            this.VihicleFeatures = new Collection<VihicleFeature>();
+            this.VehicleFeatures = new Collection<VehicleFeature>();
         }
         public int Id { get; set; }
 
@@ -26,6 +26,6 @@ namespace VegaSPA.Models
 
         public DateTime LastModified { get; set; }
 
-        public ICollection<VihicleFeature> VihicleFeatures { get; set; }
+        public ICollection<VehicleFeature> VehicleFeatures { get; set; }
     }
 }

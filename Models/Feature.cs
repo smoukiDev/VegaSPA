@@ -10,7 +10,7 @@ namespace VegaSPA.Models
     {
         public Feature()
         {
-            this.VihicleFeatures = new Collection<VihicleFeature>();         
+            this.VehicleFeatures = new Collection<VehicleFeature>();         
         }
         
         [Key]
@@ -20,6 +20,6 @@ namespace VegaSPA.Models
         [StringLength(255)]
         public string Name { get; set; }
 
-        public ICollection<VihicleFeature> VihicleFeatures { get; set; }
+        public ICollection<VehicleFeature> VehicleFeatures { get; set; }
     }
 }
