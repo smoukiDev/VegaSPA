@@ -14,27 +14,28 @@ namespace VegaSPA.Mapping
             CreateMap<Model, ModelViewModel>();
             CreateMap<Feature, FeatureViewModel>();
             CreateMap<Vehicle, VehicleViewModel>()
-                .ForMember(vrm => vrm.Contact,
+                .ForMember(vvm => vvm.Contact,
                     opt => opt.MapFrom(v => new ContactViewModel
                     {
                         Name = v.ContactInfo.ContactName,
                         Email = v.ContactInfo.ContactEmail,
                         Phone = v.ContactInfo.ContactPhone
                     }))
-                .ForMember(vrm => vrm.Features,
+                .ForMember(vvm => vvm.Features,
                     opt => opt.MapFrom(v => v.VehicleFeatures
                     .Select(vf => vf.FeatureId)));
 
             // API Resource to Domain
             CreateMap<VehicleViewModel, Vehicle>()
-                .ForPath(v => v.ContactInfo.ContactName,
-                    opt => opt.MapFrom(vrm => vrm.Contact.Name))
-                .ForPath(v => v.ContactInfo.ContactEmail,
-                    opt => opt.MapFrom(vrm => vrm.Contact.Email))
-                .ForPath(v => v.ContactInfo.ContactPhone,
-                    opt => opt.MapFrom(vrm => vrm.Contact.Phone))
+                .ForMember(v => v.ContactInfo,
+                    opt => opt.MapFrom(vvm => new ContactInfo
+                    {
+                        ContactEmail = vvm.Contact.Email,
+                        ContactName = vvm.Contact.Name,
+                        ContactPhone = vvm.Contact.Phone
+                    }))
                 .ForMember(v => v.VehicleFeatures,
-                    opt => opt.MapFrom(vrm => vrm.Features
+                    opt => opt.MapFrom(vvm => vvm.Features
                     .Select(id => new VehicleFeature {FeatureId = id})));
         }
     }
