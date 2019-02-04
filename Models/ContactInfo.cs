@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace VegaSPA.Models
 {
+    // TODO: Owned entity data annatotions are invisible for input validation.
     [Owned]
     public class ContactInfo
     {

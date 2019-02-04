@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace VegaSPA.Mapping.Models
 {
@@ -15,6 +16,7 @@ namespace VegaSPA.Mapping.Models
                
         public bool IsRegistered { get; set; }
 
+        [Required]
         public ContactViewModel Contact { get; set; }
 
         public ICollection<int> Features { get; set; }

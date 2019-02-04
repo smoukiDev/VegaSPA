@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VegaSPA.Models
 {
+    // TODO: Identity jump 1000, identity behaviour
     [Table("Vehicles")]
     public class Vehicle
     {
@@ -20,7 +21,7 @@ namespace VegaSPA.Models
         public Model Model { get; set; }
                
         public bool IsRegistered { get; set; }
-
+        
         public ContactInfo ContactInfo { get; set; }
 
         public DateTime LastModified { get; set; }

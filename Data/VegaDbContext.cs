@@ -6,7 +6,6 @@ namespace VegaSPA.Data
     // TODO: Pluggable data tier
     public class VegaDbContext : DbContext
     {
-        // TODO: Refactor data annotations with Fluent API
         public VegaDbContext(DbContextOptions<VegaDbContext> options)
             :base(options)
         {           
@@ -17,6 +16,8 @@ namespace VegaSPA.Data
         public DbSet<Feature> Features { get; set; }
 
         public DbSet<Vehicle> Vehicles { get; set; }
+
+        public DbSet<Model> Models { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
