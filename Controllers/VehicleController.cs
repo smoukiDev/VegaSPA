@@ -1,5 +1,9 @@
+using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using VegaSPA.Data;
+using VegaSPA.Mapping.Models;
 using VegaSPA.Models;
 
 namespace VegaSPA.Controllers
@@ -7,10 +11,26 @@ namespace VegaSPA.Controllers
     [Route("/api/vehicles")]
     public class VehicleController : ControllerBase
     {
-        [HttpPost]
-        public IActionResult CreateVehicle([FromBody] Vehicle vehicle)
+        private readonly IMapper _mapper;
+        private readonly VegaDbContext _context;
+
+        public VehicleController(IMapper mapper, VegaDbContext context)
         {
-            return Ok(vehicle);
+            _context = context;
+            _mapper = mapper;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateVehicle([FromBody] VehicleViewModel vehicleModel)
+        {
+            var vehicle = _mapper.Map<VehicleViewModel, Vehicle>(vehicleModel);            
+            // TODO: Transfer to db
+            vehicle.LastModified = DateTime.Now;            
+            _context.Add<Vehicle>(vehicle);
+            await _context.SaveChangesAsync();
+            var result = _mapper.Map<Vehicle, VehicleViewModel>(vehicle);
+
+            return this.Created(Request.Path.Value, result);
         }
     }
 }

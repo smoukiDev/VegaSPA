@@ -3,6 +3,7 @@ using VegaSPA.Models;
 
 namespace VegaSPA.Data
 {
+    // TODO: Pluggable data tier
     public class VegaDbContext : DbContext
     {
         // TODO: Refactor data annotations with Fluent API
@@ -12,7 +13,10 @@ namespace VegaSPA.Data
         }
 
         public DbSet<Make> Makes { get; set; }
-        public DbSet<Feature> Features {get; set;}
+
+        public DbSet<Feature> Features { get; set; }
+
+        public DbSet<Vehicle> Vehicles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
