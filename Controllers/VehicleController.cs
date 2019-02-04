@@ -21,47 +21,64 @@ namespace VegaSPA.Controllers
             _mapper = mapper;
         }
 
+        // TODO: Sample for unit-testing
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] VehicleViewModel vehicleModel)
         {
+            // Validation based on data annotation tags.
             if(!ModelState.IsValid)
             {
                 return this.BadRequest(ModelState);
             }
 
+            // Validation of ModelId foreign key.
             var model = await _context.Models.FindAsync(vehicleModel.ModelId);
             if(model == null)
             {
-                ModelState.AddModelError(nameof(vehicleModel.ModelId), "Invalid model id." );
+                ModelState.AddModelError(nameof(vehicleModel.ModelId), "Invalid model identifier." );
                 return this.BadRequest(ModelState);
             }
+
+            // Validation of Features set
+            // At least one feature should be specified in the set.
             if(vehicleModel.Features.Count == 0)
             {
                 ModelState.AddModelError(nameof(vehicleModel.Features), "Vehicle should contain at least one feature." );
                 return this.BadRequest(ModelState);
             }
+
+            // Validation of Features set.
+            // Set mustn't contain only distinct values of features identifiers.
+            if(vehicleModel.Features.Count() != vehicleModel.Features.Distinct().Count())
+            {
+                ModelState.AddModelError(nameof(vehicleModel.Features), "Invalid features set. Feature identifiers should be distinct." );
+                return this.BadRequest(ModelState);
+            }
+
+            // Validation of Features set.
+            // Set must contain only existed features identifiers which store in database.
             foreach (var featureId in vehicleModel.Features)
             {
                 try
                 {
                     _context.Features.First(f => f.Id == featureId);
                 }
-                catch(InvalidOperationException ex)
+                catch(InvalidOperationException)
                 {
-                    ModelState.AddModelError(nameof(vehicleModel.Features), $"Invalid feature has been detected. {ex.Message}" );
+                    ModelState.AddModelError(nameof(vehicleModel.Features), $"Invalid feature identifier. Feature doesn't exist." );
                     return this.BadRequest(ModelState);
-                }
-                
+                }              
             }
             
-            
+                   
             var vehicle = _mapper.Map<VehicleViewModel, Vehicle>(vehicleModel);            
             // TODO: Transfer to db
             vehicle.LastModified = DateTime.Now;            
             _context.Add<Vehicle>(vehicle);
             await _context.SaveChangesAsync();
             var result = _mapper.Map<Vehicle, VehicleViewModel>(vehicle);
-
+            
+            // First parameter is the route where record was added.
             return this.Created(Request.Path.Value, result);
         }
     }
