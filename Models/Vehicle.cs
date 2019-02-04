@@ -18,8 +18,7 @@ namespace VegaSPA.Models
         public int ModelId { get; set; }
 
         public Model Model { get; set; }
-        
-        // TODO: Generated NOT NULL in DB?       
+               
         public bool IsRegistered { get; set; }
 
         public ContactInfo ContactInfo { get; set; }
