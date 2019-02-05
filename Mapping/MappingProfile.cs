@@ -40,29 +40,48 @@ namespace VegaSPA.Mapping
                 .ForMember(v => v.VehicleFeatures,
                     opt => opt.Ignore())
                 .AfterMap((vm, v) => {
-                    // Remove unselected features
-                    var removedFeatures = new List<VehicleFeature>(); 
-                    foreach (var feature in v.VehicleFeatures)
-                    {
-                        if(!vm.Features.Contains(feature.FeatureId))
-                        {
-                            removedFeatures.Add(feature);
-                        }
-                    }
-                    foreach(var feature in removedFeatures)
-                    {
-                        v.VehicleFeatures.Remove(feature);
-                    }
-                    // Add new features
-                    var addedFeatures = new List<VehicleFeature>();
-                    foreach (var id in vm.Features)
-                    {
-                        if(!v.VehicleFeatures.Any(f => f.FeatureId == id))
-                        {
-                            v.VehicleFeatures.Add(new VehicleFeature{FeatureId = id});
-                        }
-                    }
+                    this.RemoveFeatures(vm, v);
+                    this.AddFeatures(vm, v);
                 });
+        }
+
+        /// <summary>
+        /// Add new features
+        /// </summary>
+        /// <param name="vihicleModel">API Model.</param>
+        /// <param name="vehicle">Domain model.</param>
+        private void AddFeatures(VehicleViewModel vihicleModel, Vehicle vehicle)
+        {
+            var addedFeatures = new List<VehicleFeature>();
+            foreach (var id in vihicleModel.Features)
+            {
+                if(!vehicle.VehicleFeatures.Any(f => f.FeatureId == id))
+                {
+                    vehicle.VehicleFeatures.Add(new VehicleFeature{FeatureId = id});
+                }
+            }
+        }
+
+        /// <summary>
+        /// Remove unselected features
+        /// </summary>
+        /// <param name="vehicleModel">API Model.</param>
+        /// <param name="vehicle">Domain model.</param>
+        private void RemoveFeatures(VehicleViewModel vehicleModel, Vehicle vehicle)
+        {
+            
+            var removedFeatures = new List<VehicleFeature>(); 
+            foreach (var feature in vehicle.VehicleFeatures)
+            {
+                if(!vehicleModel.Features.Contains(feature.FeatureId))
+                {
+                    removedFeatures.Add(feature);
+                }
+            }
+            foreach(var feature in removedFeatures)
+            {
+                vehicle.VehicleFeatures.Remove(feature);
+            }
         }
     }
 }
