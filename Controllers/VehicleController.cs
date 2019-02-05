@@ -117,5 +117,20 @@ namespace VegaSPA.Controllers
             await _context.SaveChangesAsync();
             return this.Ok(id);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetVehicle(int id)
+        {
+            var vehicle = await _context.Vehicles
+                .Include(v => v.VehicleFeatures)
+                .SingleOrDefaultAsync(v => v.Id == id);
+            if(vehicle == null)
+            {
+                return this.NotFound();
+            }
+            var result = _mapper.Map<Vehicle, VehicleViewModel>(vehicle);
+            
+            return this.Ok(result);
+        }
     }
 }
