@@ -9,11 +9,11 @@ namespace VegaSPA.Mapping.Models
         [StringLength(255)]
         public string Name { get; set; }
 
-        [StringLength(255)]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(255)]
+        [Phone]
         public string Phone { get; set; }        
     }
 }
