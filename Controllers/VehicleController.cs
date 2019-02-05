@@ -93,6 +93,11 @@ namespace VegaSPA.Controllers
             var vehicle = await _context.Vehicles
                 .Include(v => v.VehicleFeatures)
                 .SingleOrDefaultAsync(v => v.Id == id);
+            
+            if(vehicle == null)
+            {
+                return this.NotFound();
+            }
             _mapper.Map<VehicleViewModel, Vehicle>(vehicleModel, vehicle);                     
             await _context.SaveChangesAsync();
             var result = _mapper.Map<Vehicle, VehicleViewModel>(vehicle);
