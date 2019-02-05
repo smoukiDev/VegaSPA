@@ -99,5 +99,18 @@ namespace VegaSPA.Controllers
             
             return this.Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteVehicle(int id)
+        {
+            var vehicle = await _context.Vehicles.FindAsync(id);
+            if(vehicle == null)
+            {
+                return this.NotFound();
+            }
+            _context.Remove(vehicle);
+            await _context.SaveChangesAsync();
+            return this.Ok(id);
+        }
     }
 }
