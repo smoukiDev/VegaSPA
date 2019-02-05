@@ -68,7 +68,7 @@ namespace VegaSPA.Mapping
         /// <param name="vehicle">Domain model.</param>
         private void RemoveFeatures(VehicleViewModel vehicleModel, Vehicle vehicle)
         {
-            // FIXME: Refactoring using LINQ
+            // TODO: Refactoring using LINQ
             var removedFeatures = new List<VehicleFeature>(); 
             foreach (var feature in vehicle.VehicleFeatures)
             {
