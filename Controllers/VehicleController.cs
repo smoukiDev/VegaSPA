@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VegaSPA.Data;
 using VegaSPA.Mapping.Models;
 using VegaSPA.Models;
@@ -78,6 +79,25 @@ namespace VegaSPA.Controllers
             
             // First parameter is the route where record was added.
             return this.Created(Request.Path.Value, result);
+        }
+    
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] VehicleViewModel vehicleModel)
+        {
+            // Validation based on data annotation tags.
+            if(!ModelState.IsValid)
+            {
+                return this.BadRequest(ModelState);
+            }
+
+            var vehicle = await _context.Vehicles
+                .Include(v => v.VehicleFeatures)
+                .SingleOrDefaultAsync(v => v.Id == id);
+            _mapper.Map<VehicleViewModel, Vehicle>(vehicleModel, vehicle);                     
+            await _context.SaveChangesAsync();
+            var result = _mapper.Map<Vehicle, VehicleViewModel>(vehicle);
+            
+            return this.Ok(result);
         }
     }
 }
