@@ -71,9 +71,7 @@ namespace VegaSPA.Controllers
             }
             
                    
-            var vehicle = _mapper.Map<VehicleViewModel, Vehicle>(vehicleModel);            
-            // TODO: Transfer to db
-            vehicle.LastModified = DateTime.Now;            
+            var vehicle = _mapper.Map<VehicleViewModel, Vehicle>(vehicleModel);         
             _context.Add<Vehicle>(vehicle);
             await _context.SaveChangesAsync();
             var result = _mapper.Map<Vehicle, VehicleViewModel>(vehicle);

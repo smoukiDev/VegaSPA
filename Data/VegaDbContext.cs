@@ -23,7 +23,11 @@ namespace VegaSPA.Data
         {
             // Composite primary key definition
             modelBuilder.Entity<VehicleFeature>()
-            .HasKey(vf => new {vf.VehicleId, vf.FeatureId});
+                .HasKey(vf => new {vf.VehicleId, vf.FeatureId});
+            // GetDate runs on server side.
+            modelBuilder.Entity<Vehicle>()
+                .Property(v => v.LastModified)
+                .HasDefaultValueSql("[dbo].[getcurrentdate]()");
         }
     }
 }
