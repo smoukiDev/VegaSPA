@@ -52,13 +52,12 @@ namespace VegaSPA.Mapping
         /// <param name="vehicle">Domain model.</param>
         private void AddFeatures(VehicleViewModel vihicleModel, Vehicle vehicle)
         {
-            var addedFeatures = new List<VehicleFeature>();
-            foreach (var id in vihicleModel.Features)
+            var addedFeatures = vihicleModel.Features
+                .Where(f => !vehicle.VehicleFeatures.Any(vf => f == vf.FeatureId))
+                .Select(id => new VehicleFeature{FeatureId = id});
+            foreach (var feature in addedFeatures)
             {
-                if(!vehicle.VehicleFeatures.Any(f => f.FeatureId == id))
-                {
-                    vehicle.VehicleFeatures.Add(new VehicleFeature{FeatureId = id});
-                }
+                vehicle.VehicleFeatures.Add(feature);
             }
         }
 
