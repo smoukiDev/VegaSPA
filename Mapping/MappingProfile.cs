@@ -15,18 +15,6 @@ namespace VegaSPA.Mapping
             CreateMap<Make, KeyValuePairResource>();
             CreateMap<Model, KeyValuePairResource>();
             CreateMap<Feature, KeyValuePairResource>();
-            // TODO: SaveVehicleResource -> Vehicle Resource
-            CreateMap<Vehicle, SaveVehicleResource>()
-                .ForMember(vr => vr.Contact,
-                    opt => opt.MapFrom(v => new ContactResource
-                    {
-                        Name = v.ContactInfo.ContactName,
-                        Email = v.ContactInfo.ContactEmail,
-                        Phone = v.ContactInfo.ContactPhone
-                    }))
-                .ForMember(vr => vr.Features,
-                    opt => opt.MapFrom(v => v.VehicleFeatures
-                    .Select(vf => vf.FeatureId)));
             CreateMap<Vehicle, VehicleResource>()
                 .ForMember(vr => vr.Contact,
                     opt => opt.MapFrom(v => new ContactResource
@@ -43,11 +31,7 @@ namespace VegaSPA.Mapping
                         Name = vf.Feature.Name        
                     })))
                 .ForMember(vr => vr.Model,
-                    opt => opt.MapFrom(v => new KeyValuePairResource
-                    {
-                        Id = v.Model.Id,
-                        Name = v.Model.Name
-                    }))
+                    opt => opt.MapFrom(v => v.Model))
                 .ForMember(vr => vr.Make,
                 opt => opt.MapFrom(v => v.Model.Make));
 
