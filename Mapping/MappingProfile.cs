@@ -68,18 +68,11 @@ namespace VegaSPA.Mapping
         /// <param name="vehicle">Domain model.</param>
         private void RemoveFeatures(VehicleViewModel vehicleModel, Vehicle vehicle)
         {
-            // TODO: Refactoring using LINQ
-            var removedFeatures = new List<VehicleFeature>(); 
-            foreach (var feature in vehicle.VehicleFeatures)
+            var removedFeatures = vehicle.VehicleFeatures.Where(vf => !vehicleModel.Features.Contains(vf.FeatureId));
+            // ToList() make independant copy, which is used only by foreash loop.
+            foreach (var item in removedFeatures.ToList())
             {
-                if(!vehicleModel.Features.Contains(feature.FeatureId))
-                {
-                    removedFeatures.Add(feature);
-                }
-            }
-            foreach(var feature in removedFeatures)
-            {
-                vehicle.VehicleFeatures.Remove(feature);
+                vehicle.VehicleFeatures.Remove(item);
             }
         }
     }
