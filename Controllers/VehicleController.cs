@@ -24,7 +24,7 @@ namespace VegaSPA.Controllers
 
         // TODO: Sample for unit-testing
         [HttpPost]
-        public async Task<IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
+        public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {
             // Validation based on data annotation tags.
             if(!ModelState.IsValid)
@@ -72,17 +72,17 @@ namespace VegaSPA.Controllers
             }
             
                    
-            var vehicle = _mapper.Map<VehicleResource, Vehicle>(vehicleResource);         
+            var vehicle = _mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);         
             _context.Add<Vehicle>(vehicle);
             await _context.SaveChangesAsync();
-            var result = _mapper.Map<Vehicle, VehicleResource>(vehicle);
+            var result = _mapper.Map<Vehicle, SaveVehicleResource>(vehicle);
             
             // First parameter is the route where record was added.
             return this.Created(Request.Path.Value, result);
         }
     
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] VehicleResource vehicleResource)
+        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource vehicleResource)
         {
             // Validation based on data annotation tags.
             if(!ModelState.IsValid)
@@ -98,9 +98,9 @@ namespace VegaSPA.Controllers
             {
                 return this.NotFound();
             }
-            _mapper.Map<VehicleResource, Vehicle>(vehicleResource, vehicle);                     
+            _mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);                     
             await _context.SaveChangesAsync();
-            var result = _mapper.Map<Vehicle, VehicleResource>(vehicle);
+            var result = _mapper.Map<Vehicle, SaveVehicleResource>(vehicle);
             
             return this.Ok(result);
         }
@@ -123,6 +123,9 @@ namespace VegaSPA.Controllers
         {
             var vehicle = await _context.Vehicles
                 .Include(v => v.VehicleFeatures)
+                    .ThenInclude(vf => vf.Feature)
+                .Include(v => v.Model)
+                    .ThenInclude(m => m.Make)
                 .SingleOrDefaultAsync(v => v.Id == id);
             if(vehicle == null)
             {
