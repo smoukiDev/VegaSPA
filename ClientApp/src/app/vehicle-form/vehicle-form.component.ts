@@ -18,15 +18,15 @@ export class VehicleFormComponent implements OnInit {
     this.service.getMakes()
     .subscribe(makes => this.makes = makes as any);
     
+    // TODO: Issue -> Features loading delays on frontend
     this.service.getFeatures()
     .subscribe(features => this.features = features as any);
   }
 
-  // TODO: It could be implemented using GET Request by Id
-  //       But model in this case probably won't contain collection property.
+  // TODO: Perfomance -> Get by id endpoint or loading all with navigation property
   onMakeChange(){
     var selectedMake = this.makes.find(m => m.id == this.vihicle.make);
-    // TODO: Disabled or *ngIf  
+    // TODO: Models DropDownList -> disabled or *ngIf  
     this.models = selectedMake ? selectedMake.models : [];
   }
 }

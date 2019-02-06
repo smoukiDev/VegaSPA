@@ -1,4 +1,55 @@
-// Get collection of all makes and models assocociated with them.
-
+## Declarations
 @host = localhost:5001
+@updateId = 1
+@deleteId = 1003
+@retrieveId = 1
+## Get Makes
 GET https://{{host}}/api/makes
+
+## Add Vehicle
+POST https://{{host}}/api/vehicles
+Content-Type: application/json" 
+
+{
+	"modelId": 1,
+	"isRegistered": true,
+	"contact": {
+		"name": "name",
+		"phone": "+380558887777",
+		"email": "email@gmail.com"
+	},
+	"features": [3, 5]
+}
+
+## Update Vehicle
+PUT  https://{{host}}/api/vehicles/{{updateId}}
+Content-Type: application/json" 
+
+{
+	"modelId": 1,
+	"isRegistered": true,
+	"contact": {
+		"name": "name",
+		"phone": "+380558887777",
+		"email": "email@gmail.com"
+	},
+	"features": [1, 4, 3]
+}
+
+## Delete Vehicle
+DELETE   https://{{host}}/api/vehicles/{{deleteId}}
+
+// Get Vehicle by Id
+GET  https://{{host}}/api/vehicles/{{retrieveId}}
+Content-Type: application/json" 
+
+{
+	"modelId": 1,
+	"isRegistered": true,
+	"contact": {
+		"name": "name",
+		"phone": "+380558887777",
+		"email": "email@gmail.com"
+	},
+	"features": [1, 4, 5]
+}
