@@ -24,7 +24,7 @@ namespace VegaSPA.Controllers
         public async Task<IActionResult> GetFeatures()
         {
             var result = await _context.Features.ToListAsync();
-            return Ok(_mapper.Map<List<Feature>, List<FeatureResource>>(result));
+            return Ok(_mapper.Map<List<Feature>, List<KeyValuePairResource>>(result));
         }        
     }
 }

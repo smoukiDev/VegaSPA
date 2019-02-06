@@ -12,8 +12,10 @@ namespace VegaSPA.Mapping
         {
             // Domain to API Resource
             CreateMap<Make, MakeResource>();
-            CreateMap<Model, ModelResource>();
-            CreateMap<Feature, FeatureResource>();
+            CreateMap<Make, KeyValuePairResource>();
+            CreateMap<Model, KeyValuePairResource>();
+            CreateMap<Feature, KeyValuePairResource>();
+            // TODO: SaveVehicleResource -> Vehicle Resource
             CreateMap<Vehicle, SaveVehicleResource>()
                 .ForMember(vr => vr.Contact,
                     opt => opt.MapFrom(v => new ContactResource
@@ -35,13 +37,13 @@ namespace VegaSPA.Mapping
                     }))
                 .ForMember(vr => vr.Features,
                     opt => opt.MapFrom(v => v.VehicleFeatures
-                    .Select(vf => new FeatureResource
+                    .Select(vf => new KeyValuePairResource
                     {
                         Id = vf.Feature.Id,
                         Name = vf.Feature.Name        
                     })))
                 .ForMember(vr => vr.Model,
-                    opt => opt.MapFrom(v => new ModelResource
+                    opt => opt.MapFrom(v => new KeyValuePairResource
                     {
                         Id = v.Model.Id,
                         Name = v.Model.Name

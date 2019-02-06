@@ -75,6 +75,7 @@ namespace VegaSPA.Controllers
             var vehicle = _mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);         
             _context.Add<Vehicle>(vehicle);
             await _context.SaveChangesAsync();
+            // TODO: SaveVehickeResource -> Vehicle Resource?
             var result = _mapper.Map<Vehicle, SaveVehicleResource>(vehicle);
             
             // First parameter is the route where record was added.
@@ -100,6 +101,7 @@ namespace VegaSPA.Controllers
             }
             _mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);                     
             await _context.SaveChangesAsync();
+            // TODO: SaveVehickeResource -> Vehicle Resource?
             var result = _mapper.Map<Vehicle, SaveVehicleResource>(vehicle);
             
             return this.Ok(result);
