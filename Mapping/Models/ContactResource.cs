@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace VegaSPA.Mapping.Models
 {
-    public class ContactViewModel
+    public class ContactResource
     {
         [Required]
         [StringLength(255)]

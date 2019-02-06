@@ -24,7 +24,7 @@ namespace VegaSPA.Controllers
 
         // TODO: Sample for unit-testing
         [HttpPost]
-        public async Task<IActionResult> CreateVehicle([FromBody] VehicleViewModel vehicleModel)
+        public async Task<IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
         {
             // Validation based on data annotation tags.
             if(!ModelState.IsValid)
@@ -33,32 +33,32 @@ namespace VegaSPA.Controllers
             }
 
             // Validation of ModelId foreign key.
-            var model = await _context.Models.FindAsync(vehicleModel.ModelId);
+            var model = await _context.Models.FindAsync(vehicleResource.ModelId);
             if(model == null)
             {
-                ModelState.AddModelError(nameof(vehicleModel.ModelId), "Invalid model identifier." );
+                ModelState.AddModelError(nameof(vehicleResource.ModelId), "Invalid model identifier." );
                 return this.BadRequest(ModelState);
             }
 
             // Validation of Features set
             // At least one feature should be specified in the set.
-            if(vehicleModel.Features.Count == 0)
+            if(vehicleResource.Features.Count == 0)
             {
-                ModelState.AddModelError(nameof(vehicleModel.Features), "Vehicle should contain at least one feature." );
+                ModelState.AddModelError(nameof(vehicleResource.Features), "Vehicle should contain at least one feature." );
                 return this.BadRequest(ModelState);
             }
 
             // Validation of Features set.
             // Set mustn't contain only distinct values of features identifiers.
-            if(vehicleModel.Features.Count() != vehicleModel.Features.Distinct().Count())
+            if(vehicleResource.Features.Count() != vehicleResource.Features.Distinct().Count())
             {
-                ModelState.AddModelError(nameof(vehicleModel.Features), "Invalid features set. Feature identifiers should be distinct." );
+                ModelState.AddModelError(nameof(vehicleResource.Features), "Invalid features set. Feature identifiers should be distinct." );
                 return this.BadRequest(ModelState);
             }
 
             // Validation of Features set.
             // Set must contain only existed features identifiers which store in database.
-            foreach (var featureId in vehicleModel.Features)
+            foreach (var featureId in vehicleResource.Features)
             {
                 try
                 {
@@ -66,23 +66,23 @@ namespace VegaSPA.Controllers
                 }
                 catch(InvalidOperationException)
                 {
-                    ModelState.AddModelError(nameof(vehicleModel.Features), $"Invalid feature identifier. Feature doesn't exist." );
+                    ModelState.AddModelError(nameof(vehicleResource.Features), $"Invalid feature identifier. Feature doesn't exist." );
                     return this.BadRequest(ModelState);
                 }              
             }
             
                    
-            var vehicle = _mapper.Map<VehicleViewModel, Vehicle>(vehicleModel);         
+            var vehicle = _mapper.Map<VehicleResource, Vehicle>(vehicleResource);         
             _context.Add<Vehicle>(vehicle);
             await _context.SaveChangesAsync();
-            var result = _mapper.Map<Vehicle, VehicleViewModel>(vehicle);
+            var result = _mapper.Map<Vehicle, VehicleResource>(vehicle);
             
             // First parameter is the route where record was added.
             return this.Created(Request.Path.Value, result);
         }
     
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] VehicleViewModel vehicleModel)
+        public async Task<IActionResult> UpdateVehicle(int id, [FromBody] VehicleResource vehicleResource)
         {
             // Validation based on data annotation tags.
             if(!ModelState.IsValid)
@@ -98,9 +98,9 @@ namespace VegaSPA.Controllers
             {
                 return this.NotFound();
             }
-            _mapper.Map<VehicleViewModel, Vehicle>(vehicleModel, vehicle);                     
+            _mapper.Map<VehicleResource, Vehicle>(vehicleResource, vehicle);                     
             await _context.SaveChangesAsync();
-            var result = _mapper.Map<Vehicle, VehicleViewModel>(vehicle);
+            var result = _mapper.Map<Vehicle, VehicleResource>(vehicle);
             
             return this.Ok(result);
         }
@@ -128,7 +128,7 @@ namespace VegaSPA.Controllers
             {
                 return this.NotFound();
             }
-            var result = _mapper.Map<Vehicle, VehicleViewModel>(vehicle);
+            var result = _mapper.Map<Vehicle, VehicleResource>(vehicle);
             
             return this.Ok(result);
         }

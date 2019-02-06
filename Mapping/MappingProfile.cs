@@ -11,48 +11,48 @@ namespace VegaSPA.Mapping
         public MappingProfile()
         {
             // Domain to API Resource
-            CreateMap<Make, MakeViewModel>();
-            CreateMap<Model, ModelViewModel>();
-            CreateMap<Feature, FeatureViewModel>();
-            CreateMap<Vehicle, VehicleViewModel>()
-                .ForMember(vm => vm.Contact,
-                    opt => opt.MapFrom(v => new ContactViewModel
+            CreateMap<Make, MakeResource>();
+            CreateMap<Model, ModelResource>();
+            CreateMap<Feature, FeatureResource>();
+            CreateMap<Vehicle, VehicleResource>()
+                .ForMember(vr => vr.Contact,
+                    opt => opt.MapFrom(v => new ContactResource
                     {
                         Name = v.ContactInfo.ContactName,
                         Email = v.ContactInfo.ContactEmail,
                         Phone = v.ContactInfo.ContactPhone
                     }))
-                .ForMember(vm => vm.Features,
+                .ForMember(vr => vr.Features,
                     opt => opt.MapFrom(v => v.VehicleFeatures
                     .Select(vf => vf.FeatureId)));
 
             // API Resource to Domain
-            CreateMap<VehicleViewModel, Vehicle>()
+            CreateMap<VehicleResource, Vehicle>()
                 .ForMember(v => v.Id,
                     opt => opt.Ignore())
                 .ForMember(v => v.ContactInfo,
-                    opt => opt.MapFrom(vm => new ContactInfo
+                    opt => opt.MapFrom(vr => new ContactInfo
                     {
-                        ContactEmail = vm.Contact.Email,
-                        ContactName = vm.Contact.Name,
-                        ContactPhone = vm.Contact.Phone
+                        ContactEmail = vr.Contact.Email,
+                        ContactName = vr.Contact.Name,
+                        ContactPhone = vr.Contact.Phone
                     }))
                 .ForMember(v => v.VehicleFeatures,
                     opt => opt.Ignore())
-                .AfterMap((vm, v) => {
-                    this.RemoveFeatures(vm, v);
-                    this.AddFeatures(vm, v);
+                .AfterMap((vr, v) => {
+                    this.RemoveFeatures(vr, v);
+                    this.AddFeatures(vr, v);
                 });
         }
 
         /// <summary>
         /// Add new features
         /// </summary>
-        /// <param name="vihicleModel">API Model.</param>
+        /// <param name="vihicleResource">API Model.</param>
         /// <param name="vehicle">Domain model.</param>
-        private void AddFeatures(VehicleViewModel vihicleModel, Vehicle vehicle)
+        private void AddFeatures(VehicleResource vihicleResource, Vehicle vehicle)
         {
-            var addedFeatures = vihicleModel.Features
+            var addedFeatures = vihicleResource.Features
                 .Where(f => !vehicle.VehicleFeatures.Any(vf => f == vf.FeatureId))
                 .Select(id => new VehicleFeature{FeatureId = id});
             foreach (var feature in addedFeatures)
@@ -64,11 +64,11 @@ namespace VegaSPA.Mapping
         /// <summary>
         /// Remove unselected features
         /// </summary>
-        /// <param name="vehicleModel">API Model.</param>
+        /// <param name="vehicleResource">API Model.</param>
         /// <param name="vehicle">Domain model.</param>
-        private void RemoveFeatures(VehicleViewModel vehicleModel, Vehicle vehicle)
+        private void RemoveFeatures(VehicleResource vehicleResource, Vehicle vehicle)
         {
-            var removedFeatures = vehicle.VehicleFeatures.Where(vf => !vehicleModel.Features.Contains(vf.FeatureId));
+            var removedFeatures = vehicle.VehicleFeatures.Where(vf => !vehicleResource.Features.Contains(vf.FeatureId));
             // ToList() make independant copy, which is used only by foreash loop.
             foreach (var item in removedFeatures.ToList())
             {

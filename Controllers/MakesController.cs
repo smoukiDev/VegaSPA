@@ -23,7 +23,7 @@ namespace VegaSPA.Controllers
         public async Task<IActionResult> GetMakes()
         {
             var result = await _context.Makes.Include(m => m.Models).ToListAsync();
-            return Ok(_mapper.Map<List<Make>, List<MakeViewModel>>(result));
+            return Ok(_mapper.Map<List<Make>, List<MakeResource>>(result));
         }
     }
 }

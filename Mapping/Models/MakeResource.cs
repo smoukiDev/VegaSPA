@@ -3,15 +3,15 @@ using System.Collections.ObjectModel;
 
 namespace VegaSPA.Mapping.Models
 {
-    public class MakeViewModel
+    public class MakeResource
     {
-        public MakeViewModel()
+        public MakeResource()
         {
-            Models = new Collection<ModelViewModel>();
+            Models = new Collection<ModelResource>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<ModelViewModel> Models {get; set;}
+        public ICollection<ModelResource> Models {get; set;}
 
     }
 }

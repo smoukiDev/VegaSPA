@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VegaSPA.Mapping.Models
 {
-    public class VehicleViewModel
+    public class VehicleResource
     {
-        public VehicleViewModel()
+        public VehicleResource()
         {
             this.Features = new Collection<int>();
         }
@@ -17,7 +17,7 @@ namespace VegaSPA.Mapping.Models
         public bool IsRegistered { get; set; }
 
         [Required]
-        public ContactViewModel Contact { get; set; }
+        public ContactResource Contact { get; set; }
 
         public ICollection<int> Features { get; set; }
     }
