@@ -41,7 +41,8 @@ namespace VegaSPA.Controllers
             var model = await _context.Models.FindAsync(vehicleResource.ModelId);
             if(model == null)
             {
-                ModelState.AddModelError(nameof(vehicleResource.ModelId), "Invalid model identifier." );
+                var message = "Invalid model identifier.";
+                ModelState.AddModelError(nameof(vehicleResource.ModelId), message);
                 return this.BadRequest(ModelState);
             }
 
@@ -49,7 +50,8 @@ namespace VegaSPA.Controllers
             // At least one feature should be specified in the set.
             if(vehicleResource.Features.Count == 0)
             {
-                ModelState.AddModelError(nameof(vehicleResource.Features), "Vehicle should contain at least one feature." );
+                var message = "Vehicle should contain at least one feature.";
+                ModelState.AddModelError(nameof(vehicleResource.Features), message);
                 return this.BadRequest(ModelState);
             }
 
@@ -57,7 +59,8 @@ namespace VegaSPA.Controllers
             // Set mustn't contain only distinct values of features identifiers.
             if(vehicleResource.Features.Count() != vehicleResource.Features.Distinct().Count())
             {
-                ModelState.AddModelError(nameof(vehicleResource.Features), "Invalid features set. Feature identifiers should be distinct." );
+                var message = "Invalid features set. Feature identifiers should be distinct.";
+                ModelState.AddModelError(nameof(vehicleResource.Features), message);
                 return this.BadRequest(ModelState);
             }
 
@@ -67,11 +70,16 @@ namespace VegaSPA.Controllers
             {
                 try
                 {
-                    _context.Features.First(f => f.Id == featureId);
+                    var feature = await _context.Features.FindAsync(featureId);
+                    if(feature == null)
+                    {
+                        var message = "Invalid feature identifier. Feature doesn't exist.";
+                        throw new ArgumentException(message);
+                    }
                 }
-                catch(InvalidOperationException)
+                catch(ArgumentException e)
                 {
-                    ModelState.AddModelError(nameof(vehicleResource.Features), $"Invalid feature identifier. Feature doesn't exist." );
+                    ModelState.AddModelError(nameof(vehicleResource.Features), e.Message);
                     return this.BadRequest(ModelState);
                 }              
             }
