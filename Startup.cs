@@ -26,6 +26,7 @@ namespace VegaSPA
             services.AddDbContext<VegaDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("VegaDB")));
             services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

@@ -14,14 +14,17 @@ namespace VegaSPA.Controllers
     public class VehicleController : ControllerBase
     {
         private readonly IMapper _mapper;
+        // TODO: Three critical references on context to replace.
         private readonly VegaDbContext _context;
         private readonly IVehicleRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public VehicleController(IMapper mapper, VegaDbContext context, IVehicleRepository repository)
+        public VehicleController(IMapper mapper, VegaDbContext context, IVehicleRepository repository, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _context = context;
             _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         // TODO: Sample for unit-testing
@@ -76,7 +79,7 @@ namespace VegaSPA.Controllers
                    
             var vehicle = _mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);         
             _repository.Add(vehicle);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CompleteAsync();
 
             vehicle = await _repository.GetVehicle(vehicle.Id);
 
@@ -104,7 +107,7 @@ namespace VegaSPA.Controllers
                 return this.NotFound();
             }
             _mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);                     
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CompleteAsync();
             
             vehicle = await _repository.GetVehicle(id);
 
@@ -122,7 +125,7 @@ namespace VegaSPA.Controllers
                 return this.NotFound();
             }
             _repository.Remove(vehicle);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CompleteAsync();
             return this.Ok(id);
         }
 
