@@ -81,7 +81,7 @@ namespace VegaSPA.Controllers
             _repository.Add(vehicle);
             await _unitOfWork.CompleteAsync();
 
-            vehicle = await _repository.GetVehicle(vehicle.Id);
+            vehicle = await _repository.GetCompleteVehicleAsync(vehicle.Id);
 
             var result = _mapper.Map<Vehicle, VehicleResource>(vehicle);
             
@@ -98,9 +98,7 @@ namespace VegaSPA.Controllers
                 return this.BadRequest(ModelState);
             }
 
-            var vehicle = await _context.Vehicles
-                .Include(v => v.VehicleFeatures)
-                .SingleOrDefaultAsync(v => v.Id == id);
+            var vehicle = await _repository.GetWithVehicleFeaturesAsync(id);
             
             if(vehicle == null)
             {
@@ -109,7 +107,7 @@ namespace VegaSPA.Controllers
             _mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);                     
             await _unitOfWork.CompleteAsync();
             
-            vehicle = await _repository.GetVehicle(vehicle.Id);
+            vehicle = await _repository.GetCompleteVehicleAsync(vehicle.Id);
 
             var result = _mapper.Map<Vehicle, VehicleResource>(vehicle);
             
@@ -119,7 +117,7 @@ namespace VegaSPA.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
-            var vehicle = await _repository.GetVehicle(id, includeRelated: false);
+            var vehicle = await _repository.GetAsync(id);
             if(vehicle == null)
             {
                 return this.NotFound();
@@ -132,7 +130,7 @@ namespace VegaSPA.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVehicle(int id)
         {
-            var vehicle = await _repository.GetVehicle(id);
+            var vehicle = await _repository.GetCompleteVehicleAsync(id);
 
             if(vehicle == null)
             {

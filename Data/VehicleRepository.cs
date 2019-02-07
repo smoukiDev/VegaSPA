@@ -4,6 +4,7 @@ using VegaSPA.Models;
 
 namespace VegaSPA.Data
 {
+    // TODO: Overkill get methods and their description
     public class VehicleRepository : IVehicleRepository
     {
         private readonly VegaDbContext _context;
@@ -12,18 +13,20 @@ namespace VegaSPA.Data
         {
             _context = context;
         }
-        public async Task<Vehicle> GetVehicle(int id, bool includeRelated = true)
+        public async Task<Vehicle> GetCompleteVehicleAsync(int id)
         {
-            if (!includeRelated)
-            {
-                return await _context.Vehicles.FindAsync(id);
-            }
-
             return await _context.Vehicles
                 .Include(v => v.VehicleFeatures)
                     .ThenInclude(vf => vf.Feature)
                 .Include(v => v.Model)
                     .ThenInclude(m => m.Make)
+                .SingleOrDefaultAsync(v => v.Id == id);
+        }
+
+        public async Task<Vehicle> GetWithVehicleFeaturesAsync(int id)
+        {
+            return await _context.Vehicles
+                .Include(v => v.VehicleFeatures)
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 
@@ -35,6 +38,11 @@ namespace VegaSPA.Data
         public void Remove(Vehicle vehicle)
         {
             _context.Remove(vehicle);
+        }
+
+        public async Task<Vehicle> GetAsync(int id)
+        {
+            return await _context.Vehicles.FindAsync(id);
         }
     }
 }
