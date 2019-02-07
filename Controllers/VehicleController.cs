@@ -109,7 +109,7 @@ namespace VegaSPA.Controllers
             _mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);                     
             await _unitOfWork.CompleteAsync();
             
-            vehicle = await _repository.GetVehicle(id);
+            vehicle = await _repository.GetVehicle(vehicle.Id);
 
             var result = _mapper.Map<Vehicle, VehicleResource>(vehicle);
             
