@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './vehicle-form.component.html',
   styleUrls: ['./vehicle-form.component.css']
 })
+// TODO: Specify Types
 export class VehicleFormComponent implements OnInit {
   makes: any[];
-  vihicle: any = {};
+  // TODO: Fix naming
+  vihicle: any = {
+    features: [],
+    contact: {}
+  };
   models: any[];
   features: any[];
   constructor(private service : VihicleService) { }
@@ -25,8 +30,19 @@ export class VehicleFormComponent implements OnInit {
 
   // TODO: Perfomance -> Get by id endpoint or loading all with navigation property
   onMakeChange(){
-    var selectedMake = this.makes.find(m => m.id == this.vihicle.make);
+    var selectedMake = this.makes.find(m => m.id == this.vihicle.makeId);
     // TODO: Models DropDownList -> disabled or *ngIf  
     this.models = selectedMake ? selectedMake.models : [];
+    delete this.vihicle.modelId;
+  }
+  // TODO: event type for Intellicence
+  onFeatureToggle(featureId, $event){
+    if($event.target.checked){
+      this.vihicle.features.push(featureId);
+    }
+    else{
+      var index = this.vihicle.features.indexOf(featureId);
+      this.vihicle.features.splice(index, 1);
+    }
   }
 }

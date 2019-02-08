@@ -1,45 +1,58 @@
 <h1>Add new vihicle</h1>
+<!-- TODO: Temp for debug -->
+<p>
+  {{vihicle | json}}
+</p>
 <form>
+  <!--Make dropdown list-->
   <div class="form-group">
     <label for="make">Make</label>
-    <select id="make" class="form-control" (change)="onMakeChange()" [(ngModel)]="vihicle.make" name = "make">
+    <select id="make" class="form-control" (change)="onMakeChange()" [(ngModel)]="vihicle.makeId" name = "makeId">
       <option value = ""></option>
       <option *ngFor="let m of makes" value="{{m.id}}">{{m.name}}</option>
     </select>
   </div>
+  
+  <!--Model dropdown list-->
   <div class="form-group">
     <label for="model">Model</label>
-    <select id="model" class="form-control">
+    <select id="model" class="form-control" [(ngModel)]="vihicle.modelId" name = "modelId">
        <option value=""></option>
        <option *ngFor="let m of models" value="{{m.id}}">{{m.name}}</option>
     </select>
   </div>
+
+  <!--Vehicle registration radiobuttons-->
   <p>Is this vihicle registered?</p>
     <label for="registered" class="radio-inline">
-      <input type="radio" name ="isRegistered" id="registered" value="true"/> Yes
+      <input type="radio" name ="isRegistered" id="registered" value="true" [(ngModel)]="vihicle.isRegistered"/> Yes
     </label>
     <label for="notRegistered" class="radio-inline">
-        <input type="radio" name ="isRegistered" id="notRegistered" value="false"/> No
+        <input type="radio" name ="isRegistered" id="notRegistered" value="false" [(ngModel)]="vihicle.isRegistered"/> No
     </label>
+
+  <!--Features checkboxes-->
   <h2>Features</h2>
   <div class="checkbox" *ngFor="let f of features">
     <label for="{{f.id}}">
-      <input id="{{f.id}}" type="checkbox"/> {{f.name}}
+      <input type="checkbox" id="{{f.id}}" (change) = "onFeatureToggle(f.id, $event)"/> {{f.name}}
     </label>
   </div>
+
+  <!-- Contacts Fields-->
   <!-- TODO: Inline labels aligned-->
   <h2>Contact</h2>
   <div class="form-group">
     <label for="contactName">Name: </label>
-    <input id="contactName" type="text" class="form-control"/> 
+    <input id="contactName" type="text" class="form-control" [(ngModel)]="vihicle.contact.name" name ="contactName"/> 
   </div>
   <div class="form-group" >
     <label class="inline" for="contactPhone">Phone:</label>
-    <input type="text" id="contactPhone" class="form-control"/>
+    <input type="text" id="contactPhone" class="form-control" [(ngModel)]="vihicle.contact.phone" name ="contactPhone"/>
   </div>
   <div class="form-group">
     <label for="contactEmail">Email:</label>
-    <input type="text" id="contactEmail" class="form-control"/>
+    <input type="text" id="contactEmail" class="form-control" [(ngModel)]="vihicle.contact.email" name ="contactEmail"/>
   </div>
   <button class="btn btn-primary">Submit</button>
 </form>
