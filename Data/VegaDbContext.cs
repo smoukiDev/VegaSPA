@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using VegaSPA.Models;
+using VegaSPA.Core.Models;
 
 namespace VegaSPA.Data
 {

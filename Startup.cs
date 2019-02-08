@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VegaSPA.Data;
+using VegaSPA.Core;
 using AutoMapper;
 
 namespace VegaSPA

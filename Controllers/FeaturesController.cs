@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VegaSPA.Data;
 using VegaSPA.Mapping.Models;
-using VegaSPA.Models;
+using VegaSPA.Core;
+using VegaSPA.Core.Models;
 
 namespace VegaSPA.Controllers
 {

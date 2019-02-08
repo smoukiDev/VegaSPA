@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VegaSPA.Models
+namespace VegaSPA.Core.Models
 {
     [Table("Features")]
     public class Feature

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using VegaSPA.Mapping.Models;
-using VegaSPA.Models;
+using VegaSPA.Core.Models;
 
 namespace VegaSPA.Mapping
 {

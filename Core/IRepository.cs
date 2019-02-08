@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace VegaSPA.Data
+namespace VegaSPA.Core
 {
     public interface IRepository<T> where T: class
     {

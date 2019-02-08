@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-using VegaSPA.Models;
+using VegaSPA.Core;
+using VegaSPA.Core.Models;
 
 namespace VegaSPA.Data
 {

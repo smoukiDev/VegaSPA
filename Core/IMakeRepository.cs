@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using VegaSPA.Models;
+using VegaSPA.Core.Models;
 
-namespace VegaSPA.Data
+namespace VegaSPA.Core
 {
     public interface IMakeRepository : IRepository<Make>
     {
