@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using VegaSPA.Models;
+using VegaSPA.Core.Models;
 
 namespace VegaSPA.Data
 {
-    // TODO: Pluggable data tier
     public class VegaDbContext : DbContext
     {
         public VegaDbContext(DbContextOptions<VegaDbContext> options)

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace VegaSPA.Models
+namespace VegaSPA.Core.Models
 {
     public class Make
     {

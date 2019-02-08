@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
-namespace VegaSPA.Models
+namespace VegaSPA.Core.Models
 {
     // TODO: Owned entity data annatotions are invisible for input validation.
     [Owned]
