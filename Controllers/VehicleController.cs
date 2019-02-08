@@ -14,16 +14,11 @@ namespace VegaSPA.Controllers
     public class VehicleController : ControllerBase
     {
         private readonly IMapper _mapper;
-        // TODO: Three critical references on context to replace.
-        private readonly VegaDbContext _context;
-        private readonly IVehicleRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public VehicleController(IMapper mapper, VegaDbContext context, IVehicleRepository repository, IUnitOfWork unitOfWork)
+        public VehicleController(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
-            _context = context;
-            _repository = repository;
             _unitOfWork = unitOfWork;
         }
 
@@ -38,7 +33,7 @@ namespace VegaSPA.Controllers
             }
 
             // Validation of ModelId foreign key.
-            var model = await _context.Models.FindAsync(vehicleResource.ModelId);
+            var model = await _unitOfWork.Models.FindAsync(vehicleResource.ModelId);
             if(model == null)
             {
                 var message = "Invalid model identifier.";
@@ -70,7 +65,7 @@ namespace VegaSPA.Controllers
             {
                 try
                 {
-                    var feature = await _context.Features.FindAsync(featureId);
+                    var feature = await _unitOfWork.Features.FindAsync(featureId);
                     if(feature == null)
                     {
                         var message = "Invalid feature identifier. Feature doesn't exist.";
@@ -86,10 +81,10 @@ namespace VegaSPA.Controllers
             
                    
             var vehicle = _mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource);         
-            _repository.Add(vehicle);
+            _unitOfWork.Vehicles.Add(vehicle);
             await _unitOfWork.CompleteAsync();
 
-            vehicle = await _repository.GetCompleteVehicleAsync(vehicle.Id);
+            vehicle = await _unitOfWork.Vehicles.GetCompleteVehicleAsync(vehicle.Id);
 
             var result = _mapper.Map<Vehicle, VehicleResource>(vehicle);
             
@@ -106,7 +101,7 @@ namespace VegaSPA.Controllers
                 return this.BadRequest(ModelState);
             }
 
-            var vehicle = await _repository.GetWithVehicleFeaturesAsync(id);
+            var vehicle = await _unitOfWork.Vehicles.GetWithVehicleFeaturesAsync(id);
             
             if(vehicle == null)
             {
@@ -115,7 +110,7 @@ namespace VegaSPA.Controllers
             _mapper.Map<SaveVehicleResource, Vehicle>(vehicleResource, vehicle);                     
             await _unitOfWork.CompleteAsync();
             
-            vehicle = await _repository.GetCompleteVehicleAsync(vehicle.Id);
+            vehicle = await _unitOfWork.Vehicles.GetCompleteVehicleAsync(vehicle.Id);
 
             var result = _mapper.Map<Vehicle, VehicleResource>(vehicle);
             
@@ -125,12 +120,12 @@ namespace VegaSPA.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
-            var vehicle = await _repository.GetAsync(id);
+            var vehicle = await _unitOfWork.Vehicles.FindAsync(id);
             if(vehicle == null)
             {
                 return this.NotFound();
             }
-            _repository.Remove(vehicle);
+            _unitOfWork.Vehicles.Remove(vehicle);
             await _unitOfWork.CompleteAsync();
             return this.Ok(id);
         }
@@ -138,7 +133,7 @@ namespace VegaSPA.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVehicle(int id)
         {
-            var vehicle = await _repository.GetCompleteVehicleAsync(id);
+            var vehicle = await _unitOfWork.Vehicles.GetCompleteVehicleAsync(id);
 
             if(vehicle == null)
             {

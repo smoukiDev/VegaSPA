@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -11,20 +12,20 @@ namespace VegaSPA.Controllers
 {
     public class FeaturesController : ControllerBase
     {
-        private readonly VegaDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public FeaturesController(VegaDbContext context, IMapper mapper)
+        public FeaturesController(IMapper mapper, IUnitOfWork unitOfWork)
         {
-            _context = context;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet("/api/features")]
         public async Task<IActionResult> GetFeatures()
         {
-            var result = await _context.Features.ToListAsync();
-            return Ok(_mapper.Map<List<Feature>, List<KeyValuePairResource>>(result));
+            var result = await _unitOfWork.Features.GetAll();
+            return Ok(_mapper.Map<List<Feature>, List<KeyValuePairResource>>(result.ToList()));
         }        
     }
 }

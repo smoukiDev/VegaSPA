@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -11,19 +12,20 @@ namespace VegaSPA.Controllers
 {
     public class MakesController : ControllerBase
     {
-        private readonly VegaDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public MakesController(VegaDbContext context, IMapper mapper)
+        public MakesController(IMapper mapper, IUnitOfWork unitOfWork)
         {
-            _context = context;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
         [HttpGet("/api/makes")]
         public async Task<IActionResult> GetMakes()
         {
-            var result = await _context.Makes.Include(m => m.Models).ToListAsync();
-            return Ok(_mapper.Map<List<Make>, List<MakeResource>>(result));
+            // TODO: IEnumerable vs List
+            var result = await _unitOfWork.Makes.GetWithModels();
+            return Ok(_mapper.Map<List<Make>, List<MakeResource>>(result.ToList()));
         }
     }
 }

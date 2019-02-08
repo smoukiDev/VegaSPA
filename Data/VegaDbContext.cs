@@ -3,7 +3,6 @@ using VegaSPA.Models;
 
 namespace VegaSPA.Data
 {
-    // TODO: Pluggable data tier
     public class VegaDbContext : DbContext
     {
         public VegaDbContext(DbContextOptions<VegaDbContext> options)
