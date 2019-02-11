@@ -21,11 +21,11 @@ export class VehicleFormComponent implements OnInit {
 
   ngOnInit() {
     this.service.getMakes()
-    .subscribe(makes => this.makes = makes as any);
+      .subscribe(makes => this.makes = makes as any);
     
     // TODO: Issue -> Features loading delays on frontend
     this.service.getFeatures()
-    .subscribe(features => this.features = features as any);
+      .subscribe(features => this.features = features as any);
   }
 
   // TODO: Perfomance -> Get by id endpoint or loading all with navigation property
@@ -35,6 +35,7 @@ export class VehicleFormComponent implements OnInit {
     this.models = selectedMake ? selectedMake.models : [];
     delete this.vihicle.modelId;
   }
+
   // TODO: event type for Intellicence
   onFeatureToggle(featureId, $event){
     if($event.target.checked){
@@ -44,5 +45,10 @@ export class VehicleFormComponent implements OnInit {
       var index = this.vihicle.features.indexOf(featureId);
       this.vihicle.features.splice(index, 1);
     }
+  }
+
+  submit(){
+    this.service.createVehicle(this.vihicle)
+      .subscribe(x => console.log(x));
   }
 }
