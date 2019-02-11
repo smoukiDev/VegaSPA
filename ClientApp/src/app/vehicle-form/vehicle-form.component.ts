@@ -55,11 +55,18 @@ export class VehicleFormComponent implements OnInit {
   submit(){
     this.vehicleService.createVehicle(this.vehicle)
       .subscribe(
-        x => console.log(x),
+        x => {
+          this.toastrManager.successToastr("Request has been successfully sent:)", "Info", {
+            showCloseButton: true,          
+            toastTimeout: 5000,
+            position: 'bottom-right',
+            animate: 'slideFromBottom'
+          })
+        },
         error => {
           this.toastrManager.errorToastr("Unexpected error has been occured", "Error", {
             showCloseButton: true,          
-            toastTimeout: 10000,
+            toastTimeout: 5000,
             position: 'bottom-right',
             animate: 'slideFromBottom'
           });
