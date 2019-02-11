@@ -1,5 +1,6 @@
 import { VehicleService } from './../../services/make.service';
 import { Component, OnInit } from '@angular/core';
+import { ToastrManager } from 'ng6-toastr-notifications';
 
 
 @Component({
@@ -18,7 +19,10 @@ export class VehicleFormComponent implements OnInit {
   };
   models: any[];
   features: any[];
-  constructor(private vehicleService : VehicleService) { }
+  constructor(
+    private vehicleService : VehicleService,
+    public toastrManager: ToastrManager
+    ) { }
 
   ngOnInit() {
     this.vehicleService.getMakes()
@@ -50,7 +54,17 @@ export class VehicleFormComponent implements OnInit {
 
   submit(){
     this.vehicleService.createVehicle(this.vehicle)
-      .subscribe(x => console.log(x));
+      .subscribe(
+        x => console.log(x),
+        error => {
+          this.toastrManager.errorToastr("Unexpected error has been occured", "Error", {
+            showCloseButton: true,          
+            toastTimeout: 10000,
+            position: 'bottom-right',
+            animate: 'slideFromBottom'
+          });
+        } 
+        );
   }
 
   public get emailPattern() : string {
