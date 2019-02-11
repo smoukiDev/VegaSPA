@@ -1,4 +1,4 @@
-import { VihicleService } from './../../services/make.service';
+import { VehicleService } from './../../services/make.service';
 import { Component, OnInit } from '@angular/core';
 
 
@@ -12,45 +12,44 @@ import { Component, OnInit } from '@angular/core';
 export class VehicleFormComponent implements OnInit {
   private _emailPattern = '[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}';
   makes: any[];
-  // TODO: Fix naming
-  vihicle: any = {
+  vehicle: any = {
     features: [],
     contact: {}
   };
   models: any[];
   features: any[];
-  constructor(private service : VihicleService) { }
+  constructor(private vehicleService : VehicleService) { }
 
   ngOnInit() {
-    this.service.getMakes()
+    this.vehicleService.getMakes()
       .subscribe(makes => this.makes = makes as any);
     
     // TODO: Issue -> Features loading delays on frontend
-    this.service.getFeatures()
+    this.vehicleService.getFeatures()
       .subscribe(features => this.features = features as any);
   }
 
   // TODO: Perfomance -> Get by id endpoint or loading all with navigation property
   onMakeChange(){
-    var selectedMake = this.makes.find(m => m.id == this.vihicle.makeId);
+    var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
     // TODO: Models DropDownList -> disabled or *ngIf  
     this.models = selectedMake ? selectedMake.models : [];
-    delete this.vihicle.modelId;
+    delete this.vehicle.modelId;
   }
 
   // TODO: event type for Intellicence
   onFeatureToggle(featureId, $event){
     if($event.target.checked){
-      this.vihicle.features.push(featureId);
+      this.vehicle.features.push(featureId);
     }
     else{
-      var index = this.vihicle.features.indexOf(featureId);
-      this.vihicle.features.splice(index, 1);
+      var index = this.vehicle.features.indexOf(featureId);
+      this.vehicle.features.splice(index, 1);
     }
   }
 
   submit(){
-    this.service.createVehicle(this.vihicle)
+    this.vehicleService.createVehicle(this.vehicle)
       .subscribe(x => console.log(x));
   }
 

@@ -1,4 +1,4 @@
-import { VihicleService } from './../services/make.service';
+import { VehicleService } from './../services/make.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -32,7 +32,7 @@ import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
     ])
   ],
   providers: [
-    VihicleService
+    VehicleService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,7 @@
-<h1>Add new vihicle</h1>
+<h1>Add new vehicle</h1>
 <!-- TODO: Temp for debug -->
 <p>
-  {{vihicle | json}}
+  {{vehicle | json}}
 </p>
 <!-- Validation (regexp) for email, phone -->
 <!-- Validation for features and registration-->
@@ -9,7 +9,7 @@
   <!--Make dropdown list-->
   <div class="form-group">
     <label for="make">Make</label>
-    <select id="make" class="form-control" (change)="onMakeChange()" [(ngModel)]="vihicle.makeId" name = "makeId" required #make="ngModel">
+    <select id="make" class="form-control" (change)="onMakeChange()" [(ngModel)]="vehicle.makeId" name = "makeId" required #make="ngModel">
       <option value = ""></option>
       <option *ngFor="let m of makes" value="{{m.id}}">{{m.name}}</option>
     </select>
@@ -22,7 +22,7 @@
   <!--Model dropdown list-->
   <div class="form-group">
     <label for="model">Model</label>
-    <select id="model" class="form-control" [(ngModel)]="vihicle.modelId" name = "modelId" required #model="ngModel">
+    <select id="model" class="form-control" [(ngModel)]="vehicle.modelId" name = "modelId" required #model="ngModel">
        <option value=""></option>
        <option *ngFor="let m of models" value="{{m.id}}">{{m.name}}</option>
     </select>
@@ -33,12 +33,12 @@
   </div>
 
   <!--Vehicle registration radiobuttons-->
-  <p>Is this vihicle registered?</p>
+  <p>Is this vehicle registered?</p>
   <label for="registered" class="radio-inline">
-    <input type="radio" name ="isRegistered" id="registered" value="true" [(ngModel)]="vihicle.isRegistered"/> Yes
+    <input type="radio" name ="isRegistered" id="registered" value="true" [(ngModel)]="vehicle.isRegistered"/> Yes
   </label>
   <label for="notRegistered" class="radio-inline">
-    <input type="radio" name ="isRegistered" id="notRegistered" value="false" [(ngModel)]="vihicle.isRegistered"/> No
+    <input type="radio" name ="isRegistered" id="notRegistered" value="false" [(ngModel)]="vehicle.isRegistered"/> No
   </label>
 
   <!--Features checkboxes-->
@@ -57,7 +57,7 @@
   <!--Contact Name-->
   <div class="form-group">
     <label for="contactName">Name: </label>
-    <input id="contactName" type="text" class="form-control" [(ngModel)]="vihicle.contact.name" name ="contactName" required #contactName="ngModel"/>
+    <input id="contactName" type="text" class="form-control" [(ngModel)]="vehicle.contact.name" name ="contactName" required #contactName="ngModel"/>
   </div>
   <!--Error Handler-->
   <div class="alert alert-danger" *ngIf="contactName.touched && !contactName.valid">
@@ -67,7 +67,7 @@
   <!--Contact Phone-->
   <div class="form-group" >
     <label class="inline" for="contactPhone">Phone:</label>
-    <input type="text" id="contactPhone" class="form-control" [(ngModel)]="vihicle.contact.phone" name ="contactPhone" required #contactPhone="ngModel"/>
+    <input type="text" id="contactPhone" class="form-control" [(ngModel)]="vehicle.contact.phone" name ="contactPhone" required #contactPhone="ngModel"/>
   </div>
   <!--Error Handler-->
   <div class="alert alert-danger" *ngIf="contactPhone.touched && !contactPhone.valid">
@@ -77,7 +77,7 @@
   <!--Contact Email-->
   <div class="form-group">
     <label for="contactEmail">Email:</label>
-    <input type="text" id="contactEmail" class="form-control" [(ngModel)]="vihicle.contact.email" name ="contactEmail" pattern="{{emailPattern}}" #contactEmail = "ngModel"/>
+    <input type="text" id="contactEmail" class="form-control" [(ngModel)]="vehicle.contact.email" name ="contactEmail" pattern="{{emailPattern}}" #contactEmail = "ngModel"/>
   </div>
   <!--Error Handler-->
   <div class="alert alert-danger" *ngIf="contactEmail.touched && !contactEmail.valid">
