@@ -77,7 +77,11 @@
   <!--Contact Email-->
   <div class="form-group">
     <label for="contactEmail">Email:</label>
-    <input type="text" id="contactEmail" class="form-control" [(ngModel)]="vihicle.contact.email" name ="contactEmail"/>
+    <input type="text" id="contactEmail" class="form-control" [(ngModel)]="vihicle.contact.email" name ="contactEmail" pattern="{{emailPattern}}" #contactEmail = "ngModel"/>
+  </div>
+  <!--Error Handler-->
+  <div class="alert alert-danger" *ngIf="contactEmail.touched && !contactEmail.valid">
+    Invalid email.
   </div>
   <button class="btn btn-primary" [disabled]="!f.valid">
     Submit

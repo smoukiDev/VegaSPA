@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 // TODO: Specify Types
 // TODO: TSLint
 export class VehicleFormComponent implements OnInit {
+  private _emailPattern = '[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}';
   makes: any[];
   // TODO: Fix naming
   vihicle: any = {
@@ -51,5 +52,9 @@ export class VehicleFormComponent implements OnInit {
   submit(){
     this.service.createVehicle(this.vihicle)
       .subscribe(x => console.log(x));
+  }
+
+  public get emailPattern() : string {
+    return this._emailPattern;
   }
 }
