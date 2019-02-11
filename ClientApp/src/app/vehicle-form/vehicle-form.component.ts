@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vehicle-form.component.css']
 })
 // TODO: Specify Types
+// TODO: TSLint
 export class VehicleFormComponent implements OnInit {
   makes: any[];
   // TODO: Fix naming
