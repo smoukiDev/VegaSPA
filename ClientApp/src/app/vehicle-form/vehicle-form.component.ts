@@ -12,6 +12,7 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 // TODO: TSLint
 export class VehicleFormComponent implements OnInit {
   private _emailPattern = '[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}';
+  private _phonePattern = '[0-9]{10}';
   makes: any[];
   vehicle: any = {
     features: [],
@@ -77,4 +78,9 @@ export class VehicleFormComponent implements OnInit {
   public get emailPattern() : string {
     return this._emailPattern;
   }
+
+  public get phonePattern() : string {
+    return this._phonePattern;
+  }
+  
 }

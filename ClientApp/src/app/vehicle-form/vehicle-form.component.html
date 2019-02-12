@@ -67,13 +67,17 @@
   <!--Contact Phone-->
   <div class="form-group" >
     <label class="inline" for="contactPhone">Phone:</label>
-    <input type="text" id="contactPhone" class="form-control" [(ngModel)]="vehicle.contact.phone" name ="contactPhone" required #contactPhone="ngModel"/>
+    <input type="text" id="contactPhone" class="form-control" [(ngModel)]="vehicle.contact.phone" name ="contactPhone" required pattern="{{phonePattern}}" #contactPhone="ngModel"/>
   </div>
   <!--Error Handler-->
-  <div class="alert alert-danger" *ngIf="contactPhone.touched && !contactPhone.valid">
-    Please specify your phone, please.
+  <div class="alert alert-danger" *ngIf="(contactPhone.touched || contactPhone.dirty) && contactPhone.invalid">
+    <div *ngIf="contactPhone.hasError('required')">
+      Required field.
+    </div>
+    <div *ngIf="contactPhone.hasError('pattern')">
+      Invalid phone format.
+    </div>
   </div>
-
   <!--Contact Email-->
   <div class="form-group">
     <label for="contactEmail">Email:</label>
