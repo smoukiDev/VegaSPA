@@ -16,7 +16,7 @@
   </div>
   <!--Error Handler-->
   <div class="alert alert-danger" *ngIf="make.touched && !make.valid">
-    Please specify the make, please.
+    Required field.
   </div>
   
   <!--Model dropdown list-->
@@ -29,7 +29,7 @@
   </div>
   <!--Error Handler-->
   <div class="alert alert-danger" *ngIf="model.touched && !model.valid">
-    Please specify the model, please.
+      Required field.
   </div>
 
   <!--Vehicle registration radiobuttons-->
@@ -61,7 +61,7 @@
   </div>
   <!--Error Handler-->
   <div class="alert alert-danger" *ngIf="contactName.touched && !contactName.valid">
-    Please specify your name, please.
+    Required field.
   </div>
 
   <!--Contact Phone-->
@@ -84,7 +84,7 @@
     <input type="text" id="contactEmail" class="form-control" [(ngModel)]="vehicle.contact.email" name ="contactEmail" pattern="{{emailPattern}}" #contactEmail = "ngModel"/>
   </div>
   <!--Error Handler-->
-  <div class="alert alert-danger" *ngIf="contactEmail.touched && !contactEmail.valid">
+  <div class="alert alert-danger" *ngIf="(contactEmail.touched || contactEmail.dirty) && contactEmail.invalid">
     Invalid email.
   </div>
   <button class="btn btn-primary" [disabled]="!f.valid">
