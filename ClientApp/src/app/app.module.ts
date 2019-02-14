@@ -13,6 +13,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
+import { Toasts } from './app-toasts';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
-    VehicleService
+    VehicleService,
+    Toasts
   ],
   bootstrap: [AppComponent]
 })

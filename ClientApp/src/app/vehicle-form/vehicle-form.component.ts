@@ -1,5 +1,6 @@
 import { VehicleService } from './../../services/make.service';
 import { Component, OnInit} from '@angular/core';
+import { Toasts } from '../app-toasts';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -19,7 +20,9 @@ export class VehicleFormComponent implements OnInit {
   models: any[];
   features: any[];
 
-  constructor(private vehicleService : VehicleService) { }
+  constructor(
+    private vehicleService : VehicleService,
+    private toasts: Toasts) { }
 
   ngOnInit() {
     this.vehicleService.getMakes()
@@ -51,7 +54,9 @@ export class VehicleFormComponent implements OnInit {
 
   submit(){
     this.vehicleService.createVehicle(this.vehicle)
-      .subscribe( x => console.log(x));
+      .subscribe( x => {
+        let message = "Succefully sent:)";
+        this.toasts.displaySuccessToast(message);});
   }
 
   public get emailPattern() : string {
@@ -72,9 +77,3 @@ export class VehicleFormComponent implements OnInit {
 //     message = featuresErrors[0];
 //   }
 // }
-
-// this.toastrManager.errorToastr(message, "Error", {
-//   showCloseButton: true,          
-//   toastTimeout: 5000,
-//   position: 'bottom-right',
-//   animate: 'slideFromBottom'});

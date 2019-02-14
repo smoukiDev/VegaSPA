@@ -1,20 +1,21 @@
-import { ToastrManager } from 'ng6-toastr-notifications';
-import { ErrorHandler, Injector, Injectable, OnInit } from '@angular/core';
+import { ErrorHandler, Injectable, Injector} from '@angular/core';
+import { Toasts } from './app-toasts';
 
 @Injectable()
 export class AppErrorHandler implements ErrorHandler{
-    private toastrManager: ToastrManager;
-    
+    private toasts: Toasts;
     constructor(private injector: Injector) {}
     
-    handleError(error: any): void {
-        this.toastrManager = this.injector.get(ToastrManager);
+    private injectToasts(){
+        if(!this.toasts){
+            this.toasts = this.injector.get(Toasts);
+        }
+    }
 
-        this.toastrManager.errorToastr("Unexpected error", "Error", {
-            showCloseButton: true,          
-            toastTimeout: 5000,
-            position: 'bottom-right',
-            animate: 'slideFromBottom'});
+    handleError(error: any): void {
+        this.injectToasts();
+        let message = "Unexpected error has occured:(";
+        this.toasts.displayErrorToast(message);
     }
     
 }
