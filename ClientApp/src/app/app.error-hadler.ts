@@ -13,8 +13,16 @@ export class AppErrorHandler implements ErrorHandler{
     }
 
     handleError(error: any): void {
-        this.injectToasts();
         let message = "Unexpected error has occured:(";
+        
+        // Extraction is questinable
+        if(error.status === 400)
+        {
+            var featuresErrors = error.error.Features as string[];
+            message = featuresErrors[0];
+        }
+        
+        this.injectToasts();
         this.toasts.displayErrorToast(message);
     }
     

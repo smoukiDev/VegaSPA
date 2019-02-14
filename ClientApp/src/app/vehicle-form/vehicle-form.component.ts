@@ -54,9 +54,13 @@ export class VehicleFormComponent implements OnInit {
 
   submit(){
     this.vehicleService.createVehicle(this.vehicle)
-      .subscribe( x => {
-        let message = "Succefully sent:)";
-        this.toasts.displaySuccessToast(message);});
+      .subscribe( 
+        x => 
+        {
+          let message = "Succefully sent:)";
+          this.toasts.displaySuccessToast(message);
+        }
+        );
   }
 
   public get emailPattern() : string {
@@ -68,12 +72,4 @@ export class VehicleFormComponent implements OnInit {
   }
 }
 
-// let message : string = "Unexpected error has been occured:(";
-// if(e.status === 400)
-// {
-//   var featuresErrors = e.error.Features as string[];
-//   if(featuresErrors.length > 0)
-//   {
-//     message = featuresErrors[0];
-//   }
-// }
+
