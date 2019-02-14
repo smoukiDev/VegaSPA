@@ -56,31 +56,7 @@ export class VehicleFormComponent implements OnInit {
 
   submit(){
     this.vehicleService.createVehicle(this.vehicle)
-      .subscribe(
-        x => {
-          this.toastrManager.successToastr("Request has been successfully sent:)", "Info", {
-            showCloseButton: true,          
-            toastTimeout: 5000,
-            position: 'bottom-right',
-            animate: 'slideFromBottom'
-          })
-        },
-        e => {
-          let message : string = "Unexpected error has been occured:(";
-          if(e.status === 400)
-          {
-            var featuresErrors = e.error.Features as string[];
-            if(featuresErrors.length > 0)
-            {
-              message = featuresErrors[0];
-            }
-          }
-
-          this.toastrManager.errorToastr(message, "Error", {
-            showCloseButton: true,          
-            toastTimeout: 5000,
-            position: 'bottom-right',
-            animate: 'slideFromBottom'});});
+      .subscribe( x => console.log(x));
   }
 
   public get emailPattern() : string {
@@ -91,3 +67,19 @@ export class VehicleFormComponent implements OnInit {
     return this._phonePattern;
   }
 }
+
+// let message : string = "Unexpected error has been occured:(";
+// if(e.status === 400)
+// {
+//   var featuresErrors = e.error.Features as string[];
+//   if(featuresErrors.length > 0)
+//   {
+//     message = featuresErrors[0];
+//   }
+// }
+
+// this.toastrManager.errorToastr(message, "Error", {
+//   showCloseButton: true,          
+//   toastTimeout: 5000,
+//   position: 'bottom-right',
+//   animate: 'slideFromBottom'});
