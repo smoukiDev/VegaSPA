@@ -1,8 +1,20 @@
-import { ErrorHandler } from '@angular/core';
+import { ToastrManager } from 'ng6-toastr-notifications';
+import { ErrorHandler, Injector, Injectable, OnInit } from '@angular/core';
 
-export class AppErrorHandler implements ErrorHandler {
+@Injectable()
+export class AppErrorHandler implements ErrorHandler{
+    private toastrManager: ToastrManager;
+    
+    constructor(private injector: Injector) {}
+    
     handleError(error: any): void {
-        console.log("something went wrong");
+        this.toastrManager = this.injector.get(ToastrManager);
+
+        this.toastrManager.errorToastr("Unexpected error", "Error", {
+            showCloseButton: true,          
+            toastTimeout: 5000,
+            position: 'bottom-right',
+            animate: 'slideFromBottom'});
     }
     
 }
