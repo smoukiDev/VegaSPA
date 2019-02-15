@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/browser';
-import { ErrorHandler, Injectable, Injector} from '@angular/core';
+import { ErrorHandler, Injectable, Injector, isDevMode} from '@angular/core';
 import { Toasts } from './app-toasts';
 
 @Injectable()
@@ -14,7 +14,10 @@ export class AppErrorHandler implements ErrorHandler{
     }
 
     handleError(error: any): void {
-        Sentry.captureException(error.originalError || error);
+        if(!isDevMode()) 
+        {
+            Sentry.captureException(error.originalError || error);
+        }
 
         let message = "Unexpected error has occured:(";
         this.injectToasts();
