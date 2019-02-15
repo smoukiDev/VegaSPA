@@ -24,6 +24,7 @@
     "@angular/platform-server": "^7.2.2",
     "@angular/router": "^7.2.2",
     "@nguniversal/module-map-ngfactory-loader": "^5.0.0-beta.5",
+    "@sentry/browser": "^4.6.1",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^3.3.7",
     "codelyzer": "^4.5.0",

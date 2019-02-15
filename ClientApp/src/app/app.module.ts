@@ -14,6 +14,11 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { Toasts } from './app-toasts';
+import * as Sentry from "@sentry/browser";
+
+Sentry.init({
+  dsn: "https://efbc1a22f1704e4ba72ab81a0df38fbe@sentry.io/1395070"
+});
 
 @NgModule({
   declarations: [
