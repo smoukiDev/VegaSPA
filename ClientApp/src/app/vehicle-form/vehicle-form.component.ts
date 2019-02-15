@@ -59,6 +59,18 @@ export class VehicleFormComponent implements OnInit {
         {
           let message = "Succefully sent:)";
           this.toasts.displaySuccessToast(message);
+        },
+        e =>
+        {
+          if(e.status === 400)
+          {
+              var featuresErrors = e.error.Features as string[];
+              this.toasts.displayErrorToast(featuresErrors[0]);
+          }
+          else
+          {
+            throw e;
+          }
         }
         );
   }
