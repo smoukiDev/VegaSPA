@@ -1,5 +1,5 @@
 import { AppErrorHandler } from './app.error-hadler';
-import { VehicleService } from './../services/make.service';
+import { VehicleService } from './../services/vehicle.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, ErrorHandler } from '@angular/core';

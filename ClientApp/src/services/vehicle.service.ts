@@ -8,15 +8,15 @@ export class VehicleService {
 
   constructor(private http: HttpClient) { }
 
-  getMakes(){
+  getMakes() {
     return this.http.get('/api/makes');
   }
 
-  getFeatures(){
+  getFeatures() {
     return this.http.get('/api/features');
   }
 
-  createVehicle(vehicle){
+  createVehicle(vehicle) {
     return this.http.post('/api/vehicles', vehicle);
   }
 }
