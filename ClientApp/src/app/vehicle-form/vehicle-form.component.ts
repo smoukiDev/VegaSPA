@@ -2,6 +2,8 @@ import { VehicleService } from '../../services/vehicle.service';
 import { Component, OnInit} from '@angular/core';
 import { Toasts } from '../app-toasts';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import 'rxjs/add/observable/forkJoin';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -38,29 +40,29 @@ export class VehicleFormComponent implements OnInit {
     }
 
   ngOnInit() {
-    if(!this.router.url.endsWith('new'))
-    {
-      this.vehicleService.getVehicle(this.vehicle.id)
-      .subscribe(v => 
-      {
-        this.vehicle = v
+    let isEdit = !this.router.url.endsWith('new');
+
+    let requests: any[] = [
+      this.vehicleService.getMakes(),
+      this.vehicleService.getFeatures()];
+    if(isEdit) {
+      requests.push(this.vehicleService.getVehicle(this.vehicle.id));
+    }
+    
+    Observable.forkJoin(requests)
+      .subscribe(data => {
+        this.makes = data[0] as any;
+        this.features = data[1] as any;
+        if(isEdit) {
+          this.vehicle = data[2] as any;
+        }
       },
-      e =>
-      {
-        if(e.status === 404)
-        {
+    error =>{
+      if(error.status === 404){
           this.router.navigate(['**']);
           return;
         }
-      });
-    }
-
-    this.vehicleService.getMakes()
-      .subscribe(makes => this.makes = makes as any);
-    
-    // TODO: Issue -> Features loading delays on frontend
-    this.vehicleService.getFeatures()
-      .subscribe(features => this.features = features as any);
+    })
   }
 
   // TODO: Perfomance -> Get by id endpoint or loading all with navigation property
