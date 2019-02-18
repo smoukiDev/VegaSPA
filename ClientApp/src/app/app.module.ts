@@ -33,12 +33,13 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'home', component: HomeComponent},
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'vehicles/new', component: VehicleFormComponent},
       { path: 'vehicles/:id', component: VehicleFormComponent},
       { path: 'page-not-found', component: PageNotFoundComponent},
+      { path: '', redirectTo: '/home', pathMatch: 'full'},
       { path: '**', redirectTo: '/page-not-found'}
     ])
   ],
