@@ -35,6 +35,7 @@ import { Toasts } from './app-toasts';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'vehicles/new', component: VehicleFormComponent},
+      { path: 'vehicles/:id', component: VehicleFormComponent}
     ])
   ],
   providers: [
