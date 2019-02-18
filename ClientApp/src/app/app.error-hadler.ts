@@ -16,6 +16,9 @@ export class AppErrorHandler implements ErrorHandler{
     handleError(error: any): void {
         if(!isDevMode()) 
         {
+            Sentry.init({
+                dsn: "https://efbc1a22f1704e4ba72ab81a0df38fbe@sentry.io/1395070"
+              });
             Sentry.captureException(error.originalError || error);
         }
 
