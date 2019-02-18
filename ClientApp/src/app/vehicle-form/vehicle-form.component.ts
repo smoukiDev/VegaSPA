@@ -1,6 +1,7 @@
 import { VehicleService } from '../../services/vehicle.service';
 import { Component, OnInit} from '@angular/core';
 import { Toasts } from '../app-toasts';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -22,9 +23,38 @@ export class VehicleFormComponent implements OnInit {
 
   constructor(
     private vehicleService : VehicleService,
-    private toasts: Toasts) { }
+    private toasts: Toasts,
+    private route: ActivatedRoute,
+    private router: Router) { 
+      if(!this.router.url.endsWith('new'))
+      {
+        route.params.subscribe(
+          p => 
+          {
+            this.vehicle.id = +p['id'];
+          },
+        )
+      }
+    }
 
   ngOnInit() {
+    if(!this.router.url.endsWith('new'))
+    {
+      this.vehicleService.getVehicle(this.vehicle.id)
+      .subscribe(v => 
+      {
+        this.vehicle = v
+      },
+      e =>
+      {
+        if(e.status === 404)
+        {
+          this.router.navigate(['']);
+          return;
+        }
+      });
+    }
+
     this.vehicleService.getMakes()
       .subscribe(makes => this.makes = makes as any);
     
