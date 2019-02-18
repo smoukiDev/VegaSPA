@@ -14,6 +14,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { Toasts } from './app-toasts';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { Toasts } from './app-toasts';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    VehicleFormComponent
+    VehicleFormComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -35,7 +37,9 @@ import { Toasts } from './app-toasts';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'vehicles/new', component: VehicleFormComponent},
-      { path: 'vehicles/:id', component: VehicleFormComponent}
+      { path: 'vehicles/:id', component: VehicleFormComponent},
+      { path: 'page-not-found', component: PageNotFoundComponent},
+      { path: '**', redirectTo: '/page-not-found'}
     ])
   ],
   providers: [

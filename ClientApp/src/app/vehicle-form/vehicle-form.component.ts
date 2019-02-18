@@ -49,7 +49,7 @@ export class VehicleFormComponent implements OnInit {
       {
         if(e.status === 404)
         {
-          this.router.navigate(['']);
+          this.router.navigate(['**']);
           return;
         }
       });
