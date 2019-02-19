@@ -86,7 +86,11 @@ export class VehicleFormComponent implements OnInit {
   }
 
   submit() {
-    this.createVehicle();
+    if(this.vehicle.id) {
+      this.updateVehicle();
+    } else {
+      this.createVehicle();
+    }
   }
 
   get emailPattern(): string {
@@ -126,6 +130,14 @@ export class VehicleFormComponent implements OnInit {
           throw e;
         }
       });
+  }
+
+  private updateVehicle() {
+    this.vehicleService.updateVehicle(this.vehicle)
+      .subscribe(data => {
+        let message = 'Successfully update:)';
+        this.toasts.displaySuccessToast(message);
+      })
   }
 }
 
