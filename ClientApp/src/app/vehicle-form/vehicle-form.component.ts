@@ -29,16 +29,15 @@ export class VehicleFormComponent implements OnInit {
     private toasts: Toasts,
     private route: ActivatedRoute,
     private router: Router) {
-      this.isRouteParams = Object.keys(this.route.snapshot.params).length === 0 ? false : true;
-      if(this.isRouteParams)
-      {
-        route.params.subscribe(
-          p => 
-          {
+      route.params.subscribe(
+        p => 
+        {
+          this.isRouteParams = Object.keys(p).length === 0 ? false : true;
+          if(this.isRouteParams) {
             this.vehicle.id = +p['id'];
-          },
-        )
-      }
+          }
+        },
+      )
     }
 
   ngOnInit() {
