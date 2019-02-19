@@ -86,20 +86,7 @@ export class VehicleFormComponent implements OnInit {
   }
 
   submit() {
-    this.vehicleService.createVehicle(this.vehicle)
-      .subscribe(
-        x => {
-          let message = 'Succefully sent:)';
-          this.toasts.displaySuccessToast(message);
-        },
-        e => {
-          if (e.status === 400) {
-            let featuresErrors = e.error.Features as string[];
-            this.toasts.displayErrorToast(featuresErrors[0]);
-          } else {
-            throw e;
-          }
-        });
+    this.createVehicle();
   }
 
   get emailPattern(): string {
@@ -123,6 +110,22 @@ export class VehicleFormComponent implements OnInit {
     let selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
     // TODO: Disabled model dropdown depend on make drop down
     this.models = selectedMake ? selectedMake.models : [];
+  }
+
+  private createVehicle() {
+    this.vehicleService.createVehicle(this.vehicle)
+      .subscribe(x => {
+        let message = 'Succefully sent:)';
+        this.toasts.displaySuccessToast(message);
+      }, e => {
+        if (e.status === 400) {
+          let featuresErrors = e.error.Features as string[];
+          this.toasts.displayErrorToast(featuresErrors[0]);
+        }
+        else {
+          throw e;
+        }
+      });
   }
 }
 
