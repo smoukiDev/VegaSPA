@@ -2,9 +2,11 @@ import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/forkJoin';
+import * as _ from 'underscore';
 import { VehicleService } from '../../services/vehicle.service';
 import { Toasts } from '../app-toasts';
-import { version } from 'punycode';
+import { Vehicle } from './../models/Vehicle';
+import { SaveVehicle } from './../models/SaveVehicle';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -18,10 +20,17 @@ export class VehicleFormComponent implements OnInit {
   private makes: any[];
   private features: any[];
   private models: any[];
-  // TODO: Need interface
-  private vehicle: any = {
+  private vehicle: SaveVehicle = {
+    id: 0,
+    makeId: 0,
+    modelId: 0,
+    isRegistered: false,
     features: [],
-    contact: {}
+    contact: {
+      name: '',
+      phone: '',
+      email: ''
+    }
   };
 
   constructor(
@@ -50,7 +59,7 @@ export class VehicleFormComponent implements OnInit {
       this.makes = data[0] as any;
       this.features = data[1] as any;
       if (this.vehicle.id) {
-        this.vehicle = data[2] as any;
+        this.setVehicle(data[2] as Vehicle);
       }
     },
     error => {
@@ -94,12 +103,21 @@ export class VehicleFormComponent implements OnInit {
         });
   }
 
-  public get emailPattern(): string {
+  get emailPattern(): string {
     return this._emailPattern;
   }
 
-  public get phonePattern(): string {
+  get phonePattern(): string {
     return this._phonePattern;
+  }
+
+  private setVehicle(vehicle : Vehicle) {
+    this.vehicle.id = vehicle.id;
+    this.vehicle.makeId = vehicle.make.id;
+    this.vehicle.modelId = vehicle.model.id;
+    this.vehicle.isRegistered = vehicle.isRegistered;
+    this.vehicle.contact = vehicle.contact;
+    this.vehicle.features = _.pluck(vehicle.features, 'id');
   }
 }
 
