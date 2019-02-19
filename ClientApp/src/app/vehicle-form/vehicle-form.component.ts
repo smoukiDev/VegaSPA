@@ -60,6 +60,7 @@ export class VehicleFormComponent implements OnInit {
       this.features = data[1] as any;
       if (this.vehicle.id) {
         this.setVehicle(data[2] as Vehicle);
+        this.populateModels();
       }
     },
     error => {
@@ -71,9 +72,7 @@ export class VehicleFormComponent implements OnInit {
   }
 
   onMakeChange() {
-    let selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
-    // TODO: Disabled model dropdown depend on make drop down
-    this.models = selectedMake ? selectedMake.models : [];
+    this.populateModels();
     delete this.vehicle.modelId;
   }
 
@@ -118,6 +117,12 @@ export class VehicleFormComponent implements OnInit {
     this.vehicle.isRegistered = vehicle.isRegistered;
     this.vehicle.contact = vehicle.contact;
     this.vehicle.features = _.pluck(vehicle.features, 'id');
+  }
+
+  private populateModels() {
+    let selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
+    // TODO: Disabled model dropdown depend on make drop down
+    this.models = selectedMake ? selectedMake.models : [];
   }
 }
 
