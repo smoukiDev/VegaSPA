@@ -22,13 +22,15 @@ export class VehicleFormComponent implements OnInit {
   };
   models: any[];
   features: any[];
+  isRouteParams: boolean;
 
   constructor(
     private vehicleService : VehicleService,
     private toasts: Toasts,
     private route: ActivatedRoute,
-    private router: Router) { 
-      if(!this.router.url.endsWith('new'))
+    private router: Router) {
+      this.isRouteParams = Object.keys(this.route.snapshot.params).length === 0 ? false : true;
+      if(this.isRouteParams)
       {
         route.params.subscribe(
           p => 
@@ -45,7 +47,7 @@ export class VehicleFormComponent implements OnInit {
     let requests: any[] = [
       this.vehicleService.getMakes(),
       this.vehicleService.getFeatures()];
-    if(isEdit) {
+    if(this.isRouteParams) {
       requests.push(this.vehicleService.getVehicle(this.vehicle.id));
     }
     
@@ -53,7 +55,7 @@ export class VehicleFormComponent implements OnInit {
       .subscribe(data => {
         this.makes = data[0] as any;
         this.features = data[1] as any;
-        if(isEdit) {
+        if(this.isRouteParams) {
           this.vehicle = data[2] as any;
         }
       },
