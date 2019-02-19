@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/observable/forkJoin';
 import { VehicleService } from '../../services/vehicle.service';
 import { Toasts } from '../app-toasts';
+import { version } from 'punycode';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -14,7 +15,6 @@ import { Toasts } from '../app-toasts';
 export class VehicleFormComponent implements OnInit {
   private readonly _emailPattern: string;
   private readonly _phonePattern: string;
-  private isRouteParams: boolean;
   private makes: any[];
   private features: any[];
   private models: any[];
@@ -32,30 +32,24 @@ export class VehicleFormComponent implements OnInit {
       this._emailPattern = '[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}';
       this._phonePattern = '[0-9]{10}';
 
-      route.params.subscribe(
-      p => {
-        this.isRouteParams = Object.keys(p).length === 0 ? false : true;
-          if (this.isRouteParams) {
-            this.vehicle.id = +p['id'];
-          }
-      } );
+      route.params.subscribe(p => this.vehicle.id = +p['id']);
     }
 
   ngOnInit() {
-    let requests = [
+    let sources = [
       this.vehicleService.getMakes(),
       this.vehicleService.getFeatures(),
     ];
 
-    if (this.isRouteParams) {
-      requests.push(this.vehicleService.getVehicle(this.vehicle.id));
+    if (this.vehicle.id) {
+      sources.push(this.vehicleService.getVehicle(this.vehicle.id));
     }
 
-    Observable.forkJoin(requests).subscribe(
+    Observable.forkJoin(sources).subscribe(
     data => {
       this.makes = data[0] as any;
       this.features = data[1] as any;
-      if (this.isRouteParams) {
+      if (this.vehicle.id) {
         this.vehicle = data[2] as any;
       }
     },
@@ -64,7 +58,7 @@ export class VehicleFormComponent implements OnInit {
         this.router.navigate(['**']);
         return;
       }
-    } );
+    });
   }
 
   onMakeChange() {
@@ -97,7 +91,7 @@ export class VehicleFormComponent implements OnInit {
           } else {
             throw e;
           }
-        } );
+        });
   }
 
   public get emailPattern(): string {
