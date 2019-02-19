@@ -93,6 +93,10 @@ export class VehicleFormComponent implements OnInit {
     }
   }
 
+  delete() {
+    this.deleteVehicle();
+  }
+
   get emailPattern(): string {
     return this._emailPattern;
   }
@@ -138,6 +142,17 @@ export class VehicleFormComponent implements OnInit {
         let message = 'Successfully update:)';
         this.toasts.displaySuccessToast(message);
       })
+  }
+
+  private deleteVehicle() {
+    if(confirm('Are you sure?')) {
+      this.vehicleService.deleteVehicle(this.vehicle.id)
+        .subscribe( data => {
+          let message = 'Successfully deleted:)';
+          this.toasts.displaySuccessToast(message);
+          this.router.navigate(['/home']);
+        });
+    }
   }
 }
 
