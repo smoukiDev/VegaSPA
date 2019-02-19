@@ -1,118 +1,110 @@
-import { VehicleService } from '../../services/vehicle.service';
 import { Component, OnInit} from '@angular/core';
-import { Toasts } from '../app-toasts';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/forkJoin';
+import { VehicleService } from '../../services/vehicle.service';
+import { Toasts } from '../app-toasts';
 
 @Component({
   selector: 'app-vehicle-form',
   templateUrl: './vehicle-form.component.html',
   styleUrls: ['./vehicle-form.component.css']
 })
-// TODO: Specify Types
-// TODO: TSLint
+
 export class VehicleFormComponent implements OnInit {
-  private _emailPattern = '[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}';
-  private _phonePattern = '[0-9]{10}';
-  makes: any[];
-  vehicle: any = {
+  private readonly _emailPattern: string;
+  private readonly _phonePattern: string;
+  private isRouteParams: boolean;
+  private makes: any[];
+  private features: any[];
+  private models: any[];
+  // TODO: Need interface
+  private vehicle: any = {
     features: [],
     contact: {}
   };
-  models: any[];
-  features: any[];
-  isRouteParams: boolean;
 
   constructor(
-    private vehicleService : VehicleService,
+    private vehicleService: VehicleService,
     private toasts: Toasts,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router ) {
+      this._emailPattern = '[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}';
+      this._phonePattern = '[0-9]{10}';
+
       route.params.subscribe(
-        p => 
-        {
-          this.isRouteParams = Object.keys(p).length === 0 ? false : true;
-          if(this.isRouteParams) {
+      p => {
+        this.isRouteParams = Object.keys(p).length === 0 ? false : true;
+          if (this.isRouteParams) {
             this.vehicle.id = +p['id'];
           }
-        },
-      )
+      } );
     }
 
   ngOnInit() {
-    let isEdit = !this.router.url.endsWith('new');
-
-    let requests: any[] = [
+    let requests = [
       this.vehicleService.getMakes(),
-      this.vehicleService.getFeatures()];
-    if(this.isRouteParams) {
+      this.vehicleService.getFeatures(),
+    ];
+
+    if (this.isRouteParams) {
       requests.push(this.vehicleService.getVehicle(this.vehicle.id));
     }
-    
-    Observable.forkJoin(requests)
-      .subscribe(data => {
-        this.makes = data[0] as any;
-        this.features = data[1] as any;
-        if(this.isRouteParams) {
-          this.vehicle = data[2] as any;
-        }
-      },
-    error =>{
-      if(error.status === 404){
-          this.router.navigate(['**']);
-          return;
-        }
-    })
+
+    Observable.forkJoin(requests).subscribe(
+    data => {
+      this.makes = data[0] as any;
+      this.features = data[1] as any;
+      if (this.isRouteParams) {
+        this.vehicle = data[2] as any;
+      }
+    },
+    error => {
+      if (error.status === 404) {
+        this.router.navigate(['**']);
+        return;
+      }
+    } );
   }
 
-  // TODO: Perfomance -> Get by id endpoint or loading all with navigation property
-  onMakeChange(){
-    var selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
-    // TODO: Models DropDownList -> disabled or *ngIf  
+  onMakeChange() {
+    let selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
+    // TODO: Disabled model dropdown depend on make drop down
     this.models = selectedMake ? selectedMake.models : [];
     delete this.vehicle.modelId;
   }
 
-  // TODO: event type for Intellicence
-  onFeatureToggle(featureId, $event){
-    if($event.target.checked){
+  onFeatureToggle(featureId, $event) {
+    if ($event.target.checked) {
       this.vehicle.features.push(featureId);
-    }
-    else{
-      var index = this.vehicle.features.indexOf(featureId);
+    } else {
+      let index = this.vehicle.features.indexOf(featureId);
       this.vehicle.features.splice(index, 1);
     }
   }
 
-  submit(){
+  submit() {
     this.vehicleService.createVehicle(this.vehicle)
-      .subscribe( 
-        x => 
-        {
-          let message = "Succefully sent:)";
+      .subscribe(
+        x => {
+          let message = 'Succefully sent:)';
           this.toasts.displaySuccessToast(message);
         },
-        e =>
-        {
-          if(e.status === 400)
-          {
-              var featuresErrors = e.error.Features as string[];
-              this.toasts.displayErrorToast(featuresErrors[0]);
-          }
-          else
-          {
+        e => {
+          if (e.status === 400) {
+            let featuresErrors = e.error.Features as string[];
+            this.toasts.displayErrorToast(featuresErrors[0]);
+          } else {
             throw e;
           }
-        }
-        );
+        } );
   }
 
-  public get emailPattern() : string {
+  public get emailPattern(): string {
     return this._emailPattern;
   }
 
-  public get phonePattern() : string {
+  public get phonePattern(): string {
     return this._phonePattern;
   }
 }
