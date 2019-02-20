@@ -1,4 +1,3 @@
-import { Vehicle } from './../app/models/Vehicle';
 import { SaveVehicle } from './../app/models/SaveVehicle';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -22,7 +21,7 @@ export class VehicleService {
     return this.http.post('/api/vehicles', vehicle);
   }
 
-  getVehicle(id){
+  getVehicle(id) {
     return this.http.get('/api/vehicles/' + id);
   }
 
@@ -32,5 +31,9 @@ export class VehicleService {
 
   deleteVehicle(id: number) {
     return this.http.delete('/api/vehicles/' + id);
+  }
+
+  getVehicles() {
+    return this.http.get('/api/vehicles/');
   }
 }
