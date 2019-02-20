@@ -26,7 +26,7 @@ namespace VegaSPA.Data
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.AsNoTracking().ToListAsync();
         }
