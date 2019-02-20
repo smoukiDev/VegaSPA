@@ -87,12 +87,10 @@
   <div class="alert alert-danger" *ngIf="(contactEmail.touched || contactEmail.dirty) && contactEmail.invalid">
     Invalid email.
   </div>
-
-  <button class="btn btn-primary" [disabled]="!f.valid" type="submit">
-    Submit
-  </button>
-
-  <button *ngIf="vehicle.id" class="btn btn-danger" (click)="delete()" type="button">
-    Delete
-  </button>
+    <button class="btn btn-success btn-block" [disabled]="!f.valid" type="submit">
+      Submit
+    </button>
+    <button *ngIf="vehicle.id" class="btn btn-danger btn-block" (click)="delete()" type="button">
+      Delete
+    </button>
 </form>
