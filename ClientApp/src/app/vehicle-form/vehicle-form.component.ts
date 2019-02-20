@@ -1,7 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import 'rxjs/add/observable/forkJoin';
+import { forkJoin } from 'rxjs';
 import * as _ from 'underscore';
 import { VehicleService } from '../../services/vehicle.service';
 import { Toasts } from '../app-toasts';
@@ -38,11 +37,11 @@ export class VehicleFormComponent implements OnInit {
     private toasts: Toasts,
     private route: ActivatedRoute,
     private router: Router ) {
+      console.log(this.route.snapshot.queryParams);
       this._emailPattern = '[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}';
       this._phonePattern = '[0-9]{10}';
-
       route.params.subscribe(p => {
-        //TODO: Find permanent solution to fix routes mess
+        // TODO: Find permanent solution to fix routes mess
         if(this.router.url != '/vehicles/new' && !Number(p.id))
             this.router.navigate(['**']);
 
@@ -62,7 +61,7 @@ export class VehicleFormComponent implements OnInit {
       sources.push(this.vehicleService.getVehicle(this.vehicle.id));
     }
 
-    Observable.forkJoin(sources).subscribe(
+    forkJoin(sources).subscribe(
     data => {
       this.makes = data[0] as any;
       this.features = data[1] as any;
