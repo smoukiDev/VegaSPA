@@ -41,7 +41,15 @@ export class VehicleFormComponent implements OnInit {
       this._emailPattern = '[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}';
       this._phonePattern = '[0-9]{10}';
 
-      route.params.subscribe(p => this.vehicle.id = +p['id']);
+      route.params.subscribe(p => {
+        //TODO: Find permanent solution to fix routes mess
+        if(this.router.url != '/vehicles/new' && !Number(p.id))
+            this.router.navigate(['**']);
+
+        if(Number(p.id)) {
+          this.vehicle.id = +p['id']
+        }
+      });
     }
 
   ngOnInit() {
