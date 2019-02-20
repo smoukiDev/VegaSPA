@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -143,6 +144,14 @@ namespace VegaSPA.Controllers
             var result = _mapper.Map<Vehicle, VehicleResource>(vehicle);
             
             return this.Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var vehicles = await _unitOfWork.Vehicles.GetAllAsync();
+            var result = _mapper.Map< IEnumerable<Vehicle>, IEnumerable<VehicleResource> >(vehicles);
+            return Ok(result);
         }
     }
 }

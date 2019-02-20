@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using VegaSPA.Core;
@@ -15,12 +17,8 @@ namespace VegaSPA.Data
 
         public async Task<Vehicle> GetCompleteVehicleAsync(int id)
         {
-            return await base.context.Vehicles
-                .Include(v => v.VehicleFeatures)
-                    .ThenInclude(vf => vf.Feature)
-                .Include(v => v.Model)
-                    .ThenInclude(m => m.Make)
-                .SingleOrDefaultAsync(v => v.Id == id);
+            var vehicles = await this.GetAllAsync();
+            return vehicles.FirstOrDefault(v => v.Id == id);
         }
 
         public async Task<Vehicle> GetWithVehicleFeaturesAsync(int id)
@@ -28,6 +26,17 @@ namespace VegaSPA.Data
             return await base.context.Vehicles
                 .Include(v => v.VehicleFeatures)
                 .SingleOrDefaultAsync(v => v.Id == id);
+        }
+
+        public new async Task< IEnumerable<Vehicle> > GetAllAsync() 
+        {
+            return await base.context.Vehicles
+                .Include(v => v.VehicleFeatures)
+                    .ThenInclude(vf => vf.Feature)
+                .Include(v => v.Model)
+                    .ThenInclude(m => m.Make)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }
