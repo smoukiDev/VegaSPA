@@ -29,7 +29,7 @@ export class VehicleFormComponent implements OnInit {
     contact: {
       name: '',
       phone: '',
-      email: ''
+      email: null
     }
   };
 
