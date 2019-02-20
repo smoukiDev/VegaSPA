@@ -1,15 +1,20 @@
-import { VihicleService } from './../services/make.service';
+import { AppErrorHandler } from './app.error-hadler';
+import { VehicleService } from './../services/vehicle.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
+import { ToastrModule } from "ng6-toastr-notifications";
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
+import { Toasts } from './app-toasts';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -18,21 +23,30 @@ import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    VehicleFormComponent
+    VehicleFormComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'home', component: HomeComponent},
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'vihicles/new', component: VehicleFormComponent}
+      { path: 'vehicles/new', component: VehicleFormComponent},
+      { path: 'vehicles/:id', component: VehicleFormComponent},
+      { path: 'page-not-found', component: PageNotFoundComponent},
+      { path: '', redirectTo: '/home', pathMatch: 'full'},
+      { path: '**', redirectTo: '/page-not-found'}
     ])
   ],
   providers: [
-    VihicleService
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+    VehicleService,
+    Toasts
   ],
   bootstrap: [AppComponent]
 })
