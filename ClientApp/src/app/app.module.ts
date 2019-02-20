@@ -33,15 +33,16 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     HttpClientModule,
-    FormsModule,
+    FormsModule, 
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent},
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'vehicles/new', component: VehicleFormComponent},
       { path: 'vehicles/:id', component: VehicleFormComponent},
+      { path: 'vehicles', component: VehicleListComponent},
       { path: 'page-not-found', component: PageNotFoundComponent},
-      { path: '', redirectTo: '/home', pathMatch: 'full'},
+      { path: '', redirectTo: '/vehicles', pathMatch: 'full'},
       { path: '**', redirectTo: '/page-not-found'}
     ])
   ],
