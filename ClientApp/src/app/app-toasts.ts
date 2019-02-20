@@ -8,7 +8,7 @@ export class Toasts {
         newestOnTop: false,
         showCloseButton: true,
         toastTimeout: 5000,
-        position: 'bottom-right',
+        position: 'top-right',
         animate: 'slideFromTop',
         maxShown: 3,
     };
