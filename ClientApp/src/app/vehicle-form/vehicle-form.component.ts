@@ -16,10 +16,10 @@ import { SaveVehicle } from './../models/SaveVehicle';
 export class VehicleFormComponent implements OnInit {
   private readonly _emailPattern: string;
   private readonly _phonePattern: string;
-  private makes: any[];
-  private features: any[];
-  private models: any[];
-  private vehicle: SaveVehicle = {
+  makes: any[];
+  features: any[];
+  models: any[];
+  vehicle: SaveVehicle = {
     id: 0,
     makeId: 0,
     modelId: 0,
