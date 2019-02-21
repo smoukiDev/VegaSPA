@@ -2,12 +2,29 @@
   <h2>Vehicles</h2>
 </legend>
 
+<!--Add Vehicle Button-->
 <div>
   <a [routerLink]="['/vehicles/new']" class="btn btn-success btn-block">
     New Vehicle
   </a>
 </div>
+<br>
 
+<!--Filter Section-->
+<!--Make Filter-->
+<div class="form-group">
+  <label for="make">
+    Make
+  </label>
+  <select name="" id="make" class="form-control">
+    <option value=""></option>
+    <option *ngFor="let make of makes" value="{{make.id}}">
+      {{make.name}}
+    </option>
+  </select>
+</div>
+
+<!--Vehicles Table-->
 <table class="table table-striped table-hover">
   <thead>
     <tr>
@@ -18,18 +35,17 @@
       <th></th>
     </tr>
   </thead>
-<tbody>
-  <tr *ngFor="let vehicle of vehicles">
-      <td>{{vehicle.id}}</td>
-      <td>{{vehicle.make.name}}</td>
-      <td>{{vehicle.model.name}}</td>
-      <td>{{vehicle.contact.name}}</td>
-      <td>
-        <a [routerLink]="['/vehicles/', vehicle.id]">
-          Edit
-        </a>
-      </td>
-  </tr>
-</tbody>
-
+  <tbody>
+    <tr *ngFor="let vehicle of vehicles">
+        <td>{{vehicle.id}}</td>
+        <td>{{vehicle.make.name}}</td>
+        <td>{{vehicle.model.name}}</td>
+        <td>{{vehicle.contact.name}}</td>
+        <td>
+          <a [routerLink]="['/vehicles/', vehicle.id]">
+            Edit
+          </a>
+        </td>
+    </tr>
+  </tbody>
 </table>

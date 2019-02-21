@@ -1,6 +1,8 @@
+import { KeyValuePair } from './../models/KeyValuePair';
 import { VehicleService } from './../../services/vehicle.service';
 import { Vehicle } from './../models/Vehicle';
 import { Component, OnInit } from '@angular/core';
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: 'app-vehicle-list',
@@ -8,13 +10,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
-  vehicles : Vehicle[]
+  vehicles : Vehicle[];
+  makes: KeyValuePair[];
 
   constructor(private vehicleService: VehicleService) { }
 
   ngOnInit() {
-    this.vehicleService.getVehicles()
-      .subscribe(data => this.vehicles = data as Vehicle[]);
-  }
+    let source = [
+      this.vehicleService.getVehicles(),
+      this.vehicleService.getMakes()
+    ]
 
+    forkJoin(source).subscribe(data => {
+      this.vehicles = data[0] as Vehicle[];
+      this.makes = data[1] as KeyValuePair[];
+    })
+  }
 }
