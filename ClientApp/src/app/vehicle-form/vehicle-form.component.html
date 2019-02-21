@@ -73,7 +73,7 @@
   <!--Contact Name-->
   <div class="form-group">
     <label for="contactName">Name: </label>
-    <input id="contactName" type="text" class="form-control" [(ngModel)]="vehicle.contact.name" name ="contactName" required #contactName="ngModel"/>
+    <input id="contactName" type="text" class="form-control" [(ngModel)]="vehicle.contact.name" name ="contactName" required #contactName="ngModel" placeholder="Firstname and lastname"/>
   </div>
   <!--Error Handler-->
   <div class="alert alert-danger" *ngIf="contactName.touched && !contactName.valid">
@@ -83,7 +83,7 @@
   <!--Contact Phone-->
   <div class="form-group" >
     <label class="inline" for="contactPhone">Phone:</label>
-    <input type="text" id="contactPhone" class="form-control" [(ngModel)]="vehicle.contact.phone" name ="contactPhone" required pattern="{{phonePattern}}" #contactPhone="ngModel"/>
+    <input type="text" id="contactPhone" class="form-control" [(ngModel)]="vehicle.contact.phone" name ="contactPhone" required pattern="{{phonePattern}}" #contactPhone="ngModel" placeholder="Phone Number"/>
   </div>
   <!--Error Handler-->
   <div class="alert alert-danger" *ngIf="(contactPhone.touched || contactPhone.dirty) && contactPhone.invalid">
@@ -97,7 +97,7 @@
   <!--Contact Email-->
   <div class="form-group">
     <label for="contactEmail">Email:</label>
-    <input type="text" id="contactEmail" class="form-control" [(ngModel)]="vehicle.contact.email" name ="contactEmail" pattern="{{emailPattern}}" #contactEmail = "ngModel"/>
+    <input type="text" id="contactEmail" class="form-control" [(ngModel)]="vehicle.contact.email" name ="contactEmail" pattern="{{emailPattern}}" #contactEmail = "ngModel" placeholder="Email Adress"/>
   </div>
   <!--Error Handler-->
   <div class="alert alert-danger" *ngIf="(contactEmail.touched || contactEmail.dirty) && contactEmail.invalid">
