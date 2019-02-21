@@ -11,21 +11,23 @@
 <br>
 
 <!--Filter Section-->
-<!--Make Filter-->
-<div class="form-group">
-  <label for="make">
-    Make
-  </label>
-  <select name="" id="make" class="form-control">
-    <option value=""></option>
-    <option *ngFor="let make of makes" value="{{make.id}}">
-      {{make.name}}
-    </option>
-  </select>
+<div class="well">
+  <!--Make Filter-->
+  <div class="form-group">
+    <label for="make">
+      Make
+    </label>
+    <select name="" id="make" class="form-control">
+      <option value=""></option>
+      <option *ngFor="let make of makes" value="{{make.id}}">
+        {{make.name}}
+      </option>
+    </select>
+  </div>
 </div>
 
 <!--Vehicles Table-->
-<table class="table table-striped table-hover">
+<table class="table table-striped table-hover well">
   <thead>
     <tr>
       <th>Id</th>
