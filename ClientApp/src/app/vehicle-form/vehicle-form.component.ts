@@ -112,6 +112,10 @@ export class VehicleFormComponent implements OnInit {
     return this._phonePattern;
   }
 
+  goBack() {
+    this.router.navigate(['/vehicles']);
+  }
+
   private setVehicle(vehicle : Vehicle) {
     this.vehicle.id = vehicle.id;
     this.vehicle.makeId = vehicle.make.id;
