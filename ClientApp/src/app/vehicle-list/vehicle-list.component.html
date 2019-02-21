@@ -1,3 +1,29 @@
-<p>
-  vehicle-list works!
-</p>
+<legend class="text-center">
+  <h2>Vehicles</h2>
+</legend>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Make</th>
+      <th>Model</th>
+      <th>Contact Name</th>
+      <th></th>
+    </tr>
+  </thead>
+<tbody>
+  <tr *ngFor="let vehicle of vehicles">
+      <td>{{vehicle.id}}</td>
+      <td>{{vehicle.make.name}}</td>
+      <td>{{vehicle.model.name}}</td>
+      <td>{{vehicle.contact.name}}</td>
+      <td>
+        <a [routerLink]="['/vehicles/', vehicle.id]">
+          Edit
+        </a>
+      </td>
+  </tr>
+</tbody>
+
+</table>
