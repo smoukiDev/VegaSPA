@@ -51,16 +51,16 @@
     <br>
 
     <!--Features checkboxes-->
-    <div>
-      <fieldset>
-        <legend>Features</legend>
-        <div class="checkbox" *ngFor="let f of features">
-          <label for="{{f.id}}">
-            <input type="checkbox" id="{{f.id}}" (change) = "onFeatureToggle(f.id, $event)" [checked]="vehicle.features.includes(f.id)"/>
-            {{f.name}}
-          </label>
-        </div>
-      </fieldset>
+    <button class="btn btn-default btn-block" type="button" (click)="collapseFeatures()">
+        Features
+    </button>
+    <div [hidden]="isCollapsed"> 
+      <div class="checkbox" *ngFor="let f of features">
+        <label for="{{f.id}}">
+          <input type="checkbox" id="{{f.id}}" (change) = "onFeatureToggle(f.id, $event)" [checked]="vehicle.features.includes(f.id)"/>
+          {{f.name}}
+        </label>
+      </div>
     </div>
   </div>
 
@@ -116,4 +116,5 @@
     <button class="btn btn-primary btn-block" (click)="goBack()" type="button">
       Go Back
     </button>
+    <br>
 </form>

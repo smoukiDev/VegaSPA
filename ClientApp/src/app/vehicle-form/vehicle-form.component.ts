@@ -16,6 +16,7 @@ import { SaveVehicle } from './../models/SaveVehicle';
 export class VehicleFormComponent implements OnInit {
   private readonly _emailPattern: string;
   private readonly _phonePattern: string;
+  isCollapsed = true;
   makes: any[];
   features: any[];
   models: any[];
@@ -41,10 +42,11 @@ export class VehicleFormComponent implements OnInit {
       this._phonePattern = '[0-9]{10}';
       route.params.subscribe(p => {
         // TODO: Find permanent solution to fix routes mess
-        if(this.router.url != '/vehicles/new' && !Number(p.id))
-            this.router.navigate(['**']);
+        if (this.router.url != '/vehicles/new' && !Number(p.id)) {
+          this.router.navigate(['**']);
+        }
 
-        if(Number(p.id)) {
+        if (Number(p.id)) {
           this.vehicle.id = +p['id']
         }
       });
@@ -92,7 +94,7 @@ export class VehicleFormComponent implements OnInit {
   }
 
   submit() {
-    if(this.vehicle.id) {
+    if (this.vehicle.id) {
       this.updateVehicle();
     } else {
       this.createVehicle();
@@ -115,13 +117,17 @@ export class VehicleFormComponent implements OnInit {
     this.router.navigate(['/vehicles']);
   }
 
-  private setVehicle(vehicle : Vehicle) {
+  private setVehicle(vehicle: Vehicle) {
     this.vehicle.id = vehicle.id;
     this.vehicle.makeId = vehicle.make.id;
     this.vehicle.modelId = vehicle.model.id;
     this.vehicle.isRegistered = vehicle.isRegistered;
     this.vehicle.contact = vehicle.contact;
     this.vehicle.features = _.pluck(vehicle.features, 'id');
+  }
+
+  collapseFeatures() {
+    this.isCollapsed = this.isCollapsed ? false : true;
   }
 
   private populateModels() {
@@ -139,8 +145,7 @@ export class VehicleFormComponent implements OnInit {
         if (e.status === 400) {
           let featuresErrors = e.error.Features as string[];
           this.toasts.displayErrorToast(featuresErrors[0]);
-        }
-        else {
+        } else {
           throw e;
         }
       });
@@ -151,11 +156,11 @@ export class VehicleFormComponent implements OnInit {
       .subscribe(data => {
         let message = 'Successfully update:)';
         this.toasts.displaySuccessToast(message);
-      })
+      });
   }
 
   private deleteVehicle() {
-    if(confirm('Are you sure?')) {
+    if (confirm('Are you sure?')) {
       this.vehicleService.deleteVehicle(this.vehicle.id)
         .subscribe( data => {
           let message = 'Successfully deleted:)';
