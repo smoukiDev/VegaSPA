@@ -10,8 +10,10 @@ import { forkJoin } from "rxjs";
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
+  allVehicles: Vehicle[];
   vehicles : Vehicle[];
   makes: KeyValuePair[];
+  filter: any = {};
 
   constructor(private vehicleService: VehicleService) { }
 
@@ -22,8 +24,20 @@ export class VehicleListComponent implements OnInit {
     ]
 
     forkJoin(source).subscribe(data => {
-      this.vehicles = data[0] as Vehicle[];
+      this.allVehicles = data[0] as Vehicle[];
+      this.vehicles = this.allVehicles;
       this.makes = data[1] as KeyValuePair[];
     })
+  }
+
+  onFilterChange() {
+    let vehicles = this.allVehicles;
+
+    if (this.filter.makeId) {
+      vehicles = vehicles
+        .filter(v => v.make.id == this.filter.makeId);
+    }
+
+    this.vehicles = vehicles;
   }
 }
