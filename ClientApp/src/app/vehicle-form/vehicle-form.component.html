@@ -104,7 +104,7 @@
     Invalid email.
   </div>
     <button class="btn btn-success btn-block" [disabled]="!f.valid" type="submit">
-      Submit
+      {{vehicle.id ? 'Update' : 'Submit'}}
     </button>
     <button *ngIf="vehicle.id" class="btn btn-danger btn-block" (click)="delete()" type="button">
       Delete
