@@ -37,7 +37,6 @@ export class VehicleFormComponent implements OnInit {
     private toasts: Toasts,
     private route: ActivatedRoute,
     private router: Router ) {
-      console.log(this.route.snapshot.queryParams);
       this._emailPattern = '[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}';
       this._phonePattern = '[0-9]{10}';
       route.params.subscribe(p => {
