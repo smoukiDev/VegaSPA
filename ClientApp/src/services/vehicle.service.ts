@@ -36,7 +36,20 @@ export class VehicleService {
     return this.http.delete(this.vehiclesBaseUrl + id);
   }
 
-  getVehicles() {
-    return this.http.get(this.vehiclesBaseUrl);
+  getVehicles(filter) {
+    return this.http.get(this.vehiclesBaseUrl + '?' + this.toQueryString(filter));
+  }
+
+  private toQueryString(object) {
+    let properties = [];
+    for (let property in object) {
+      let value = object[property];
+      if (value != null && value!= undefined) {
+        let item = encodeURIComponent(property) + '=' + encodeURIComponent(value);
+        properties.push(item);
+      }
+    }
+
+    return properties.join('&');
   }
 }

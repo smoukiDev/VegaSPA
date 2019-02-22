@@ -2,7 +2,6 @@ import { KeyValuePair } from './../models/KeyValuePair';
 import { VehicleService } from './../../services/vehicle.service';
 import { Vehicle } from './../models/Vehicle';
 import { Component, OnInit } from '@angular/core';
-import { forkJoin } from "rxjs";
 
 @Component({
   selector: 'app-vehicle-list',
@@ -10,7 +9,6 @@ import { forkJoin } from "rxjs";
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
-  allVehicles: Vehicle[];
   vehicles : Vehicle[];
   makes: KeyValuePair[];
   filter: any = {};
@@ -18,31 +16,23 @@ export class VehicleListComponent implements OnInit {
   constructor(private vehicleService: VehicleService) { }
 
   ngOnInit() {
-    let source = [
-      this.vehicleService.getVehicles(),
-      this.vehicleService.getMakes()
-    ]
+    this.vehicleService.getMakes()
+      .subscribe(data => this.makes = data as KeyValuePair[]);
 
-    forkJoin(source).subscribe(data => {
-      this.allVehicles = data[0] as Vehicle[];
-      this.vehicles = this.allVehicles;
-      this.makes = data[1] as KeyValuePair[];
-    })
+    this.populateVehicles();
   }
 
   onFilterChange() {
-    let vehicles = this.allVehicles;
-
-    if (this.filter.makeId) {
-      vehicles = vehicles
-        .filter(v => v.make.id == this.filter.makeId);
-    }
-
-    this.vehicles = vehicles;
+    this.populateVehicles();
   }
 
   resetFilter() {
     this.filter = {};
     this.onFilterChange();
+  }
+
+  private populateVehicles() {
+    this.vehicleService.getVehicles(this.filter)
+      .subscribe(data => this.vehicles = data as Vehicle[]);
   }
 }
