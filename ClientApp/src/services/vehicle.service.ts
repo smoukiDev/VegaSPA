@@ -6,9 +6,9 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class VehicleService {
-  private readonly vehiclesBaseUrl = '/api/vehicles';
-  private readonly makesBaseUrl = '/api/makes';
-  private readonly featuresBaseUrl = '/api/features';
+  private readonly vehiclesBaseUrl = '/api/vehicles/';
+  private readonly makesBaseUrl = '/api/makes/';
+  private readonly featuresBaseUrl = '/api/features/';
 
   constructor(private http: HttpClient) { }
 
