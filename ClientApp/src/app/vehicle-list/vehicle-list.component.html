@@ -37,7 +37,7 @@
       <th>Make</th>
       <th>Model</th>
       <th>Contact Name</th>
-      <th></th>
+      <th>Edit</th>
     </tr>
   </thead>
   <tbody>
@@ -48,7 +48,7 @@
         <td>{{vehicle.contact.name}}</td>
         <td>
           <a [routerLink]="['/vehicles/', vehicle.id]">
-            Edit
+            <div class="glyphicon glyphicon-edit"></div> 
           </a>
         </td>
     </tr>
