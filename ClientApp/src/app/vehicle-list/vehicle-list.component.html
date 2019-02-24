@@ -38,6 +38,7 @@
       <th>Model</th>
       <th>Contact Name</th>
       <th>Edit</th>
+      <th>Delete</th>
     </tr>
   </thead>
   <tbody>
@@ -50,6 +51,11 @@
           <a class="btn btn-success" [routerLink]="['/vehicles/', vehicle.id]">
             <div class="glyphicon glyphicon-edit"></div>
           </a>
+        </td>
+        <td>
+          <button class="btn btn-danger" type="button" (click)="deleteVehicle(vehicle.id)">
+            <div class="glyphicon glyphicon-remove-sign"></div>
+          </button>
         </td>
     </tr>
   </tbody>

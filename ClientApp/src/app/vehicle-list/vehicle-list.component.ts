@@ -31,6 +31,17 @@ export class VehicleListComponent implements OnInit {
     this.onFilterChange();
   }
 
+  deleteVehicle(id) {
+    // Server-side delete
+    this.vehicleService.deleteVehicle(id)
+      .subscribe(data => {});
+
+    // Client-side delete
+    let index = this.vehicles
+      .findIndex(v => v.id === id);
+    this.vehicles.splice(index, 1);
+  }
+
   private populateVehicles() {
     this.vehicleService.getVehicles(this.filter)
       .subscribe(data => this.vehicles = data as Vehicle[]);
