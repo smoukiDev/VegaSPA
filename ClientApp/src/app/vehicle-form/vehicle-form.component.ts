@@ -22,8 +22,8 @@ export class VehicleFormComponent implements OnInit {
   models: any[];
   vehicle: SaveVehicle = {
     id: 0,
-    makeId: 0,
-    modelId: 0,
+    makeId: null,
+    modelId: null,
     isRegistered: false,
     features: [],
     contact: {
