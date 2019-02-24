@@ -43,10 +43,20 @@
   </thead>
   <tbody>
     <tr *ngFor="let vehicle of vehicles">
-        <td>{{vehicle.id}}</td>
-        <td>{{vehicle.make.name}}</td>
-        <td>{{vehicle.model.name}}</td>
-        <td>{{vehicle.contact.name}}</td>
+        <!--Table readonly text cells-->
+        <td class="table-text-valign">
+          {{vehicle.id}}
+        </td>
+        <td class="table-text-valign">
+          {{vehicle.make.name}}
+        </td>
+        <td class="table-text-valign">
+          {{vehicle.model.name}}
+        </td>
+        <td class="table-text-valign">
+          {{vehicle.contact.name}}
+        </td>
+        <!--Table buttons cells-->
         <td>
           <a class="btn btn-success" [routerLink]="['/vehicles/', vehicle.id]">
             <div class="glyphicon glyphicon-edit"></div>
