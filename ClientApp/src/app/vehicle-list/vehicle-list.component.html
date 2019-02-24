@@ -17,7 +17,7 @@
     <label for="make">
       Make
     </label>
-    <select name="" id="make" class="form-control" [(ngModel)]="filter.makeId" (change)="onFilterChange()">
+    <select id="make" class="form-control" [(ngModel)]="filter.makeId" (change)="onFilterChange()">
       <option value=""></option>
       <option *ngFor="let make of makes" value="{{make.id}}">
         {{make.name}}
@@ -37,7 +37,7 @@
       <th>Make</th>
       <th>Model</th>
       <th>Contact Name</th>
-      <th></th>
+      <th>Edit</th>
     </tr>
   </thead>
   <tbody>
@@ -47,8 +47,8 @@
         <td>{{vehicle.model.name}}</td>
         <td>{{vehicle.contact.name}}</td>
         <td>
-          <a [routerLink]="['/vehicles/', vehicle.id]">
-            Edit
+          <a class="btn btn-success" [routerLink]="['/vehicles/', vehicle.id]">
+            <div class="glyphicon glyphicon-edit"></div>
           </a>
         </td>
     </tr>
