@@ -34,9 +34,19 @@
   <thead>
     <tr>
       <th>Id</th>
-      <th (click)="sortBy('make')">Make</th>
-      <th (click)="sortBy('model')">Model</th>
-      <th (click)="sortBy('contactName')">Contact Name</th>
+      <th (click)="sortBy('make')">
+        Make
+        <i *ngIf="query.isSortAscending" class="fa fa-sort-asc"></i>
+        <i *ngIf="!query.isSortAscending" class="fa fa-sort-desc"></i>
+      </th>
+      <th (click)="sortBy('model')">Model
+        <i *ngIf="query.isSortAscending" class="fa fa-sort-asc"></i>
+        <i *ngIf="!query.isSortAscending" class="fa fa-sort-desc"></i>  
+      </th>
+      <th (click)="sortBy('contactName')">Contact Name
+        <i *ngIf="query.isSortAscending" class="fa fa-sort-asc"></i>
+        <i *ngIf="!query.isSortAscending" class="fa fa-sort-desc"></i>  
+      </th>
       <th>Edit</th>
       <th>Delete</th>
     </tr>
