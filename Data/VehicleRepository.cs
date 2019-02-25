@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using VegaSPA.Core;
 using VegaSPA.Core.Models;
+using VegaSPA.Extensions;
 
 namespace VegaSPA.Data
 {
@@ -55,23 +56,9 @@ namespace VegaSPA.Data
                 ["id"] = (v) => v.Id
             };
 
-            query = ApplyOrdering(queryObject, query, columnMap);
+            query = query.ApplyOrdering(queryObject, columnMap);
 
             return await query.ToListAsync();
-        }
-
-        private static IQueryable<Vehicle> ApplyOrdering(VehicleQuery queryObject, IQueryable<Vehicle> query, Dictionary<string, Expression<Func<Vehicle, object>>> columnMap)
-        {
-            if (queryObject.IsSortAscending)
-            {
-                query = query.OrderBy(columnMap[queryObject.SortBy]);
-            }
-            else
-            {
-                query = query.OrderByDescending(columnMap[queryObject.SortBy]);
-            }
-
-            return query;
         }
     }
 }
