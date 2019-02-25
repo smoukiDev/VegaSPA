@@ -28,7 +28,7 @@ namespace VegaSPA.Data
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 
-        public async Task<IEnumerable<Vehicle>> GetCompleteVehiclesAsync(VehicleQuery filter = null)
+        public async Task<IEnumerable<Vehicle>> GetCompleteVehiclesAsync(VehicleQuery queryObject = null)
         {
             var query = base.context.Vehicles
                 .Include(v => v.VehicleFeatures)
@@ -37,12 +37,60 @@ namespace VegaSPA.Data
                     .ThenInclude(m => m.Make)
                 .AsQueryable();
 
-            filter = filter ?? new VehicleQuery();
+            queryObject = queryObject ?? new VehicleQuery();
             
-            if (filter.MakeId.HasValue)
+            if (queryObject.MakeId.HasValue)
             {
                 query = query
-                    .Where(v => v.Model.MakeId == filter.MakeId.Value);
+                    .Where(v => v.Model.MakeId == queryObject.MakeId.Value);
+            }
+
+            if (queryObject.SortBy == "make")
+            {
+                if (queryObject.IsSortAscending)
+                {
+                    query = query.OrderBy(v => v.Model.Make.Name);
+                }
+                else
+                {
+                    query = query.OrderByDescending(v => v.Model.Make.Name);
+                }
+            }
+
+            if (queryObject.SortBy == "model")
+            {
+                if (queryObject.IsSortAscending)
+                {
+                    query = query.OrderBy(v => v.Model.Name);
+                }
+                else
+                {
+                    query = query.OrderByDescending(v => v.Model.Name);
+                }
+            }
+
+            if (queryObject.SortBy == "contactName")
+            {
+                if (queryObject.IsSortAscending)
+                {
+                    query = query.OrderBy(v => v.ContactInfo.ContactName);
+                }
+                else
+                {
+                    query = query.OrderByDescending(v => v.ContactInfo.ContactName);
+                }
+            }
+
+            if (queryObject.SortBy == "id")
+            {
+                if (queryObject.IsSortAscending)
+                {
+                    query = query.OrderBy(v => v.Id);
+                }
+                else
+                {
+                    query = query.OrderByDescending(v => v.Id);
+                }
             }
 
             return await query.ToListAsync();
