@@ -70,6 +70,7 @@ export class VehicleFormComponent implements OnInit {
       if (this.vehicle.id) {
         this.setVehicle(data[2] as Vehicle);
         this.populateModels();
+        this.SetModelDropDownListVisability();
       }
     },
     error => {
