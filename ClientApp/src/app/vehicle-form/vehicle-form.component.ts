@@ -17,6 +17,7 @@ export class VehicleFormComponent implements OnInit {
   private readonly _emailPattern: string;
   private readonly _phonePattern: string;
   isCollapsed = true;
+  isMakeDropDownDisabled = true;
   makes: any[];
   features: any[];
   models: any[];
@@ -80,6 +81,7 @@ export class VehicleFormComponent implements OnInit {
   }
 
   onMakeChange() {
+    this.SetModelDropDownListVisability();
     this.populateModels();
     delete this.vehicle.modelId;
   }
@@ -132,7 +134,6 @@ export class VehicleFormComponent implements OnInit {
 
   private populateModels() {
     let selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
-    // TODO: Disabled model dropdown depend on make drop down
     this.models = selectedMake ? selectedMake.models : [];
   }
 
@@ -167,6 +168,14 @@ export class VehicleFormComponent implements OnInit {
           this.toasts.displaySuccessToast(message);
           this.router.navigate(['/home']);
         });
+    }
+  }
+
+  private SetModelDropDownListVisability() {
+    if (this.vehicle.makeId.toString() == "") {
+      this.isMakeDropDownDisabled = true;
+    } else{
+      this.isMakeDropDownDisabled = false;
     }
   }
 }
