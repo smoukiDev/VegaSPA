@@ -53,7 +53,6 @@ namespace VegaSPA.Data
                 ["make"] = (v) => v.Model.Make.Name,
                 ["model"] = (v) => v.Model.Name,
                 ["contactName"] = (v) => v.ContactInfo.ContactName,
-                ["id"] = (v) => v.Id
             };
 
             query = query.ApplyOrdering(queryObject, columnMap);

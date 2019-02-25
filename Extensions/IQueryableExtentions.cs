@@ -10,16 +10,24 @@ namespace VegaSPA.Extensions
     {
         public static IQueryable<T> ApplyOrdering<T>(this IQueryable<T> query, IQueryObject queryObject, Dictionary<string, Expression<Func<T, object>>> columnMap)
         {
+            if (String.IsNullOrWhiteSpace(queryObject.SortBy))
+            {
+                return query;
+            }
+
+            if (!columnMap.ContainsKey(queryObject.SortBy))
+            {
+                return query;
+            }
+
             if (queryObject.IsSortAscending)
             {
-                query = query.OrderBy(columnMap[queryObject.SortBy]);
+                return query = query.OrderBy(columnMap[queryObject.SortBy]);
             }
             else
             {
-                query = query.OrderByDescending(columnMap[queryObject.SortBy]);
+                return query = query.OrderByDescending(columnMap[queryObject.SortBy]);
             }
-
-            return query;
         }
     }
 }
