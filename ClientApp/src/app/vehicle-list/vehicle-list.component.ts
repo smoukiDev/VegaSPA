@@ -11,14 +11,13 @@ import { Component, OnInit } from '@angular/core';
 export class VehicleListComponent implements OnInit {
   vehicles : Vehicle[];
   makes: KeyValuePair[];
-  filter: any = {};
+  query: any = {};
 
   constructor(private vehicleService: VehicleService) { }
 
   ngOnInit() {
     this.vehicleService.getMakes()
       .subscribe(data => this.makes = data as KeyValuePair[]);
-
     this.populateVehicles();
   }
 
@@ -27,7 +26,7 @@ export class VehicleListComponent implements OnInit {
   }
 
   resetFilter() {
-    this.filter = {};
+    this.query = {};
     this.onFilterChange();
   }
 
@@ -38,8 +37,19 @@ export class VehicleListComponent implements OnInit {
       });
   }
 
+  sortBy(columnName) {
+    if(this.query.sortBy === columnName) {
+      this.query.isSortAscending = !this.query.isSortAscending;
+    } else {
+      this.query.sortBy = columnName;
+      this.query.isSortAscending = !this.query.isSortAscending;
+    }
+
+    this.populateVehicles();
+  }
+
   private populateVehicles() {
-    this.vehicleService.getVehicles(this.filter)
+    this.vehicleService.getVehicles(this.query)
       .subscribe(data => this.vehicles = data as Vehicle[]);
   }
 
