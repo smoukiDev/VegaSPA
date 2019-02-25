@@ -5,3 +5,7 @@
 .glyphicon-lg {
     font-size: 1.5em;
 }
+
+.th-pointer {
+    cursor: pointer;
+}

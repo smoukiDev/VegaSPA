@@ -34,7 +34,7 @@
   <thead>
     <tr>
       <th *ngFor="let column of columns">
-        <div *ngIf="column.isSortable; else unsortable" (click)="sortBy(column.key)">
+        <div class="th-pointer" *ngIf="column.isSortable; else unsortable" (click)="sortBy(column.key)">
           {{column.title}}
           <i *ngIf="query.isSortAscending" class="fa fa-sort-asc"></i>
           <i *ngIf="!query.isSortAscending" class="fa fa-sort-desc"></i>
