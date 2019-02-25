@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using VegaSPA.Core;
@@ -45,52 +47,21 @@ namespace VegaSPA.Data
                     .Where(v => v.Model.MakeId == queryObject.MakeId.Value);
             }
 
-            if (queryObject.SortBy == "make")
+            var columnMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
             {
-                if (queryObject.IsSortAscending)
-                {
-                    query = query.OrderBy(v => v.Model.Make.Name);
-                }
-                else
-                {
-                    query = query.OrderByDescending(v => v.Model.Make.Name);
-                }
-            }
+                ["make"] = (v) => v.Model.Make.Name,
+                ["model"] = (v) => v.Model.Name,
+                ["contactName"] = (v) => v.ContactInfo.ContactName,
+                ["id"] = (v) => v.Id
+            };
 
-            if (queryObject.SortBy == "model")
+            if (queryObject.IsSortAscending)
             {
-                if (queryObject.IsSortAscending)
-                {
-                    query = query.OrderBy(v => v.Model.Name);
-                }
-                else
-                {
-                    query = query.OrderByDescending(v => v.Model.Name);
-                }
+                query = query.OrderBy(columnMap[queryObject.SortBy]);
             }
-
-            if (queryObject.SortBy == "contactName")
+            else
             {
-                if (queryObject.IsSortAscending)
-                {
-                    query = query.OrderBy(v => v.ContactInfo.ContactName);
-                }
-                else
-                {
-                    query = query.OrderByDescending(v => v.ContactInfo.ContactName);
-                }
-            }
-
-            if (queryObject.SortBy == "id")
-            {
-                if (queryObject.IsSortAscending)
-                {
-                    query = query.OrderBy(v => v.Id);
-                }
-                else
-                {
-                    query = query.OrderByDescending(v => v.Id);
-                }
+                query = query.OrderByDescending(columnMap[queryObject.SortBy]);
             }
 
             return await query.ToListAsync();
