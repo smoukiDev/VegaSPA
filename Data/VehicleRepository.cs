@@ -28,7 +28,7 @@ namespace VegaSPA.Data
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 
-        public async Task<IEnumerable<Vehicle>> GetCompleteVehiclesAsync(VehicleFilter filter = null)
+        public async Task<IEnumerable<Vehicle>> GetCompleteVehiclesAsync(VehicleQuery filter = null)
         {
             var query = base.context.Vehicles
                 .Include(v => v.VehicleFeatures)
@@ -37,7 +37,7 @@ namespace VegaSPA.Data
                     .ThenInclude(m => m.Make)
                 .AsQueryable();
 
-            filter = filter ?? new VehicleFilter();
+            filter = filter ?? new VehicleQuery();
             
             if (filter.MakeId.HasValue)
             {

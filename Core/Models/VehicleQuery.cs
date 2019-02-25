@@ -1,6 +1,6 @@
 namespace VegaSPA.Core.Models
 {
-    public class VehicleFilter
+    public class VehicleQuery
     {
         public int? MakeId { get; set; }
     }

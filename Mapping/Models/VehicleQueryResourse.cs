@@ -1,6 +1,6 @@
 namespace VegaSPA.Mapping.Models
 {
-    public class VehicleFilterResourse
+    public class VehicleQueryResourse
     {
         public int? MakeId { get; set; }
     }

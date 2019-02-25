@@ -10,6 +10,6 @@ namespace VegaSPA.Core
 
         Task<Vehicle> GetWithVehicleFeaturesAsync(int id);
 
-        Task<IEnumerable<Vehicle>> GetCompleteVehiclesAsync(VehicleFilter filter = null);
+        Task<IEnumerable<Vehicle>> GetCompleteVehiclesAsync(VehicleQuery filter = null);
     }
 }
