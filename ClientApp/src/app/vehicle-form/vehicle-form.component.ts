@@ -108,16 +108,24 @@ export class VehicleFormComponent implements OnInit {
     this.deleteVehicle();
   }
 
+  refresh() {
+    this.vehicleService.getVehicle(this.vehicle.id)
+      .subscribe(data => {
+        this.setVehicle(data as Vehicle);
+        this.populateModels();
+      })
+  }
+
+  goBack() {
+    this.router.navigate(['/vehicles']);
+  }
+
   get emailPattern(): string {
     return this._emailPattern;
   }
 
   get phonePattern(): string {
     return this._phonePattern;
-  }
-
-  goBack() {
-    this.router.navigate(['/vehicles']);
   }
 
   private setVehicle(vehicle: Vehicle) {

@@ -3,8 +3,7 @@
 </div>
 <!--Vehicle JSON Preview (DevMode)-->
 <p *ngIf="false">{{vehicle | json}}</p>
-<!-- Validation (regexp) for email, phone -->
-<!-- Validation for features and registration-->
+<!-- TODO: Validation (regexp) for email, phone -->
 <form #f="ngForm" (ngSubmit) = "submit()">
   <div class="well">
     <!--Make dropdown list-->
@@ -110,6 +109,11 @@
       Invalid email.
     </div>
   </div>
+  <!--Buttons section-->
+  <div>
+    <button *ngIf="vehicle.id" class="btn btn-warning btn-block" (click)="refresh()" type="button">
+      Reset
+    </button>
     <button class="btn btn-success btn-block" [disabled]="!f.valid" type="submit">
       {{vehicle.id ? 'Update' : 'Submit'}}
     </button>
@@ -120,4 +124,5 @@
       Go Back
     </button>
     <br>
+  </div>
 </form>
