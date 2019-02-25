@@ -33,19 +33,17 @@
 <table class="table table-striped table-hover well">
   <thead>
     <tr>
-      <th>Id</th>
-      <th (click)="sortBy('make')">
-        Make
-        <i *ngIf="query.isSortAscending" class="fa fa-sort-asc"></i>
-        <i *ngIf="!query.isSortAscending" class="fa fa-sort-desc"></i>
-      </th>
-      <th (click)="sortBy('model')">Model
-        <i *ngIf="query.isSortAscending" class="fa fa-sort-asc"></i>
-        <i *ngIf="!query.isSortAscending" class="fa fa-sort-desc"></i>  
-      </th>
-      <th (click)="sortBy('contactName')">Contact Name
-        <i *ngIf="query.isSortAscending" class="fa fa-sort-asc"></i>
-        <i *ngIf="!query.isSortAscending" class="fa fa-sort-desc"></i>  
+      <th *ngFor="let column of columns">
+        <div *ngIf="column.isSortable; else unsortable" (click)="sortBy(column.key)">
+          {{column.title}}
+          <i *ngIf="query.isSortAscending" class="fa fa-sort-asc"></i>
+          <i *ngIf="!query.isSortAscending" class="fa fa-sort-desc"></i>
+        </div>
+        <ng-template #unsortable>
+        <div>
+          {{column.title}}
+        </div>
+      </ng-template>
       </th>
       <th>Edit</th>
       <th>Delete</th>
