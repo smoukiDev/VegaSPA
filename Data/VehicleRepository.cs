@@ -40,7 +40,7 @@ namespace VegaSPA.Data
                 .AsQueryable();
 
             queryObject = queryObject ?? new VehicleQuery();
-            
+
             if (queryObject.MakeId.HasValue)
             {
                 query = query
@@ -55,6 +55,13 @@ namespace VegaSPA.Data
                 ["id"] = (v) => v.Id
             };
 
+            query = ApplyOrdering(queryObject, query, columnMap);
+
+            return await query.ToListAsync();
+        }
+
+        private static IQueryable<Vehicle> ApplyOrdering(VehicleQuery queryObject, IQueryable<Vehicle> query, Dictionary<string, Expression<Func<Vehicle, object>>> columnMap)
+        {
             if (queryObject.IsSortAscending)
             {
                 query = query.OrderBy(columnMap[queryObject.SortBy]);
@@ -64,7 +71,7 @@ namespace VegaSPA.Data
                 query = query.OrderByDescending(columnMap[queryObject.SortBy]);
             }
 
-            return await query.ToListAsync();
+            return query;
         }
     }
 }
