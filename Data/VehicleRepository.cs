@@ -57,6 +57,8 @@ namespace VegaSPA.Data
 
             query = query.ApplyOrdering(queryObject, columnMap);
 
+            query = query.ApplyPagination(queryObject);
+
             return await query.ToListAsync();
         }
     }
