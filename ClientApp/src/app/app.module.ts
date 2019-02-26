@@ -16,6 +16,7 @@ import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { Toasts } from './app-toasts';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
+import { PaginationComponent } from './shared/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
     FetchDataComponent,
     VehicleFormComponent,
     PageNotFoundComponent,
-    VehicleListComponent
+    VehicleListComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
