@@ -1,6 +1,6 @@
 <nav class="text-center cursor-pointer" *ngIf="totalItems > pageSize">
     <ul class="pagination pagination-lg">
-        <li class="page-item" (click)="onFirst()">
+        <li class="page-item" [class.disabled]="currentPage == 1" (click)="onFirst()">
             <a class="page-link">
                 First
             </a>
@@ -20,7 +20,7 @@
                 <div class="glyphicon glyphicon-forward"></div>
             </a>
         </li>
-        <li class="page-item" (click)="onLast()">
+        <li class="page-item" [class.disabled]="currentPage == pages.length" (click)="onLast()">
             <a class="page-link">
                 Last&nbsp;
             </a>
