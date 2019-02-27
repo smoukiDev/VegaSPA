@@ -9,15 +9,15 @@ export class PaginationComponent implements OnInit, OnChanges {
   @Input('total-items') totalItems;
   @Input('page-size') pageSize;
   @Output('page-changed') pageChanged = new EventEmitter();
-  pages: any[];
-  currentPage;
+  pages: any[] = [];
+  currentPage = 1;
 
   constructor() { 
   }
 
   ngOnChanges(): void {
-    this.currentPage = 1;
     this.CountPagesAmount();
+    this.onPage(this.currentPage);
   }
 
   ngOnInit() { }

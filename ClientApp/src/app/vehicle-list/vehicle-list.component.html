@@ -50,7 +50,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let vehicle of vehicles">
+    <tr *ngFor="let vehicle of queryResult.items">
         <!--Table readonly text cells-->
         <td class="table-text-valign">
           {{vehicle.id}}
@@ -79,5 +79,8 @@
   </tbody>
 </table>
 
-<!-- <app-pagination></app-pagination> -->
-<app-pagination [page-size]="5" [total-items]="50"></app-pagination>
+<app-pagination 
+  [page-size]="query.pageSize" 
+  [total-items]="queryResult.totalItems" 
+  (page-changed)="onPageChange($event)">
+</app-pagination>

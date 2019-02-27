@@ -2,6 +2,7 @@ import { KeyValuePair } from './../models/KeyValuePair';
 import { VehicleService } from './../../services/vehicle.service';
 import { Vehicle } from './../models/Vehicle';
 import { Component, OnInit } from '@angular/core';
+import { QueryResult } from '../models/QueryResult';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -9,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
-  vehicles : Vehicle[];
+  queryResult: QueryResult<Vehicle> = {
+    items: [],
+    totalItems: 0
+  };
   makes: KeyValuePair[];
-  query: any = {};
+  query: any = {
+    pageSize: 3
+  };
   columns = [
     {title: 'Id'},
     {title: 'Make', key: 'make', isSortable: true},
@@ -53,14 +59,21 @@ export class VehicleListComponent implements OnInit {
     this.populateVehicles();
   }
 
+  onPageChange(page) {
+    this.query.page = page;
+    this.populateVehicles();
+  }
+
   private populateVehicles() {
     this.vehicleService.getVehicles(this.query)
-      .subscribe(data => this.vehicles = data as Vehicle[]);
+      .subscribe(data => {
+        this.queryResult = data as QueryResult<Vehicle>;
+      });
   }
 
   private deleteOnClient(id) {
-    let index = this.vehicles
+    let index = this.queryResult.items
       .findIndex(v => v.id === id);
-    this.vehicles.splice(index, 1);
+    this.queryResult.items.splice(index, 1);
   }
 }
