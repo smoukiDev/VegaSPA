@@ -45,7 +45,7 @@ export class VehicleListComponent implements OnInit {
   deleteVehicle(id) {
     this.vehicleService.deleteVehicle(id)
       .subscribe(data => {
-        this.deleteOnClient(id);
+        this.populateVehicles();
       });
   }
 
@@ -71,9 +71,4 @@ export class VehicleListComponent implements OnInit {
       });
   }
 
-  private deleteOnClient(id) {
-    let index = this.queryResult.items
-      .findIndex(v => v.id === id);
-    this.queryResult.items.splice(index, 1);
-  }
 }
