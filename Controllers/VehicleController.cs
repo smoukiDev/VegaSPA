@@ -147,11 +147,11 @@ namespace VegaSPA.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetVehicles([FromQuery] VehicleQueryResourse filterResource)
+        public async Task<IActionResult> GetVehicles([FromQuery] VehicleQueryResourse queryResource)
         {
-            var filter = _mapper.Map<VehicleQueryResourse, VehicleQuery>(filterResource);
-            var vehicles = await _unitOfWork.Vehicles.GetCompleteVehiclesAsync(filter);
-            var result = _mapper.Map< IEnumerable<Vehicle>, IEnumerable<VehicleResource> >(vehicles);
+            var query = _mapper.Map<VehicleQueryResourse, VehicleQuery>(queryResource);
+            var queryResult = await _unitOfWork.Vehicles.GetCompleteVehiclesAsync(query);
+            var result = _mapper.Map< QueryResult<Vehicle>, QueryResultResource<VehicleResource> >(queryResult);
             return Ok(result);
         }
     }

@@ -21,7 +21,7 @@ namespace VegaSPA.Data
         public async Task<Vehicle> GetCompleteVehicleAsync(int id)
         {
             var vehicles = await this.GetCompleteVehiclesAsync();
-            return vehicles.FirstOrDefault(v => v.Id == id);
+            return vehicles.Items.FirstOrDefault(v => v.Id == id);
         }
 
         public async Task<Vehicle> GetWithVehicleFeaturesAsync(int id)
@@ -31,8 +31,10 @@ namespace VegaSPA.Data
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 
-        public async Task<IEnumerable<Vehicle>> GetCompleteVehiclesAsync(VehicleQuery queryObject = null)
+        public async Task<QueryResult<Vehicle>> GetCompleteVehiclesAsync(VehicleQuery queryObject = null)
         {
+            var result = new QueryResult<Vehicle>();
+
             var query = base.context.Vehicles
                 .Include(v => v.VehicleFeatures)
                     .ThenInclude(vf => vf.Feature)
@@ -57,9 +59,13 @@ namespace VegaSPA.Data
 
             query = query.ApplyOrdering(queryObject, columnMap);
 
-            query = query.ApplyPagination(queryObject);
+            result.TotalItems = await query.CountAsync();
 
-            return await query.ToListAsync();
+            result.Items = await query
+                .ApplyPagination(queryObject)
+                .ToListAsync();
+
+            return result;
         }
     }
 }
