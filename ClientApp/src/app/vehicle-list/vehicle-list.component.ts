@@ -10,13 +10,14 @@ import { QueryResult } from '../models/QueryResult';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
+  private readonly PAGE_SIZE = 3;
   queryResult: QueryResult<Vehicle> = {
     items: [],
     totalItems: 0
   };
   makes: KeyValuePair[];
   query: any = {
-    pageSize: 3
+    pageSize: this.PAGE_SIZE
   };
   columns = [
     {title: 'Id'},
@@ -30,10 +31,12 @@ export class VehicleListComponent implements OnInit {
   ngOnInit() {
     this.vehicleService.getMakes()
       .subscribe(data => this.makes = data as KeyValuePair[]);
-    this.populateVehicles();
+      this.populateVehicles();
   }
 
   onFilterChange() {
+    this.query.page = 1;
+    this.query.pageSize = this.PAGE_SIZE;
     this.populateVehicles();
   }
 

@@ -1,4 +1,4 @@
-<nav class="text-center cursor-pointer" *ngIf="totalItems > pageSize">
+<nav class="text-center cursor-pointer">
     <ul class="pagination pagination-lg">
         <li class="page-item" [class.disabled]="currentPage == 1" (click)="onFirst()">
             <a class="page-link">
@@ -10,7 +10,7 @@
                 <div class="glyphicon glyphicon-backward"></div>
             </a>
         </li>
-        <li class="page-item" [class.active]="currentPage==page" *ngFor="let page of pages" (click)="onPage(page)">
+        <li class="page-item" [class.active]="currentPage == page" *ngFor="let page of pages" (click)="onPage(page)">
             <a class="page-link">
                 {{page}}
             </a>
