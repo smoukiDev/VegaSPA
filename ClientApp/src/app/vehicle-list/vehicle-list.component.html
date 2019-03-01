@@ -81,6 +81,7 @@
 
 <app-pagination 
   [page-size]="query.pageSize" 
-  [total-items]="queryResult.totalItems" 
+  [total-items]="queryResult.totalItems"
+  [current-page]="query.page"
   (page-changed)="onPageChange($event)">
 </app-pagination>

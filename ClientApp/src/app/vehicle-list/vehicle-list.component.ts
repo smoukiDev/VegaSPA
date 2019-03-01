@@ -17,6 +17,7 @@ export class VehicleListComponent implements OnInit {
   };
   makes: KeyValuePair[];
   query: any = {
+    page: 1,
     pageSize: this.PAGE_SIZE
   };
   columns = [
@@ -36,13 +37,15 @@ export class VehicleListComponent implements OnInit {
 
   onFilterChange() {
     this.query.page = 1;
-    this.query.pageSize = this.PAGE_SIZE;
     this.populateVehicles();
   }
 
   resetFilter() {
-    this.query = {};
-    this.onFilterChange();
+    this.query = {
+      page: 1,
+      pageSize: this.PAGE_SIZE
+    };
+    this.populateVehicles();
   }
 
   deleteVehicle(id) {

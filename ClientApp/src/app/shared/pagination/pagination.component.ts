@@ -8,16 +8,15 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
 export class PaginationComponent implements OnInit, OnChanges {
   @Input('total-items') totalItems;
   @Input('page-size') pageSize;
+  @Input('current-page') currentPage = 1;
   @Output('page-changed') pageChanged = new EventEmitter();
   pages: any[] = [];
-  currentPage = 1;
 
   constructor() { 
   }
 
   ngOnChanges(): void {
     this.CountPagesAmount();
-    this.onPage(this.currentPage);
   }
 
   ngOnInit() { }
