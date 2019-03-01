@@ -10,7 +10,7 @@
                 <div class="glyphicon glyphicon-backward"></div>
             </a>
         </li>
-        <li class="page-item" [class.active]="currentPage == page" *ngFor="let page of pages" (click)="onPage(page)">
+        <li class="page-item" [class.active]="currentPage == page" *ngFor="let page of getPagesRange()" (click)="onPage(page)">
             <a class="page-link">
                 {{page}}
             </a>
