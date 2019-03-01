@@ -9,3 +9,9 @@
 .th-pointer {
     cursor: pointer;
 }
+
+.fixed-bottom-centered {
+    position: fixed;
+    bottom: 1px;
+    left: 51%;
+}
