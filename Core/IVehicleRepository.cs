@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using VegaSPA.Core.Models;
 
@@ -8,5 +9,7 @@ namespace VegaSPA.Core
         Task<Vehicle> GetCompleteVehicleAsync(int id);
 
         Task<Vehicle> GetWithVehicleFeaturesAsync(int id);
+
+        Task<QueryResult<Vehicle>> GetCompleteVehiclesAsync(VehicleQuery filter = null);
     }
 }

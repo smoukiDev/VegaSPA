@@ -1,0 +1,32 @@
+<nav class="text-center cursor-pointer">
+    <ul class="pagination pagination-lg">
+        <li class="page-item" [class.disabled]="currentPage == 1" (click)="onFirst()">
+            <a class="page-link">
+                First
+            </a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage == 1" (click)="onPrevious()">
+            <a class="page-link">
+                <div class="glyphicon glyphicon-backward"></div>
+            </a>
+        </li>
+        <li class="page-item" [class.active]="currentPage == page" *ngFor="let page of getPagesRange()" (click)="onPage(page)">
+            <a class="page-link">
+                {{page}}
+            </a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage == pages.length" (click)="onNext()">
+            <a class="page-link">
+                <div class="glyphicon glyphicon-forward"></div>
+            </a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage == pages.length" (click)="onLast()">
+            <a class="page-link">
+                Last&nbsp;
+            </a>
+        </li>
+    </ul>
+</nav>
+<h4 class="text-center">
+    Selected {{currentPage}} page from {{pages.length}} pages.
+</h4>

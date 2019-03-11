@@ -39,7 +39,7 @@ Content-Type: application/json"
 ## Delete Vehicle
 DELETE   https://{{host}}/api/vehicles/{{deleteId}}
 
-// Get Vehicle by Id
+## Get Vehicle by Id
 GET  https://{{host}}/api/vehicles/{{retrieveId}}
 Content-Type: application/json" 
 
@@ -53,3 +53,20 @@ Content-Type: application/json"
 	},
 	"features": [1, 4, 5]
 }
+
+## Get vehicles
+GET  https://{{host}}/api/vehicles
+
+## Get vehicles (pagination)
+GET  https://{{host}}/api/vehicles
+?page=2
+&pageSize=2
+
+## Get vehicles (sorting)
+GET  https://{{host}}/api/vehicles
+?sortBy=contactName
+&isSortAscending=true
+
+## Get vehicles (filtering)
+GET  https://{{host}}/api/vehicles
+?makeId=1

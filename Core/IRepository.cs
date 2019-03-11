@@ -11,6 +11,6 @@ namespace VegaSPA.Core
 
         Task<T> FindAsync(int id);
 
-        Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> GetAllAsync();
     }
 }

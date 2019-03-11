@@ -15,6 +15,8 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { Toasts } from './app-toasts';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
+import { PaginationComponent } from './shared/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -24,22 +26,25 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     CounterComponent,
     FetchDataComponent,
     VehicleFormComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    VehicleListComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     HttpClientModule,
-    FormsModule,
+    FormsModule, 
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent},
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'vehicles/new', component: VehicleFormComponent},
       { path: 'vehicles/:id', component: VehicleFormComponent},
+      { path: 'vehicles', component: VehicleListComponent},
       { path: 'page-not-found', component: PageNotFoundComponent},
-      { path: '', redirectTo: '/home', pathMatch: 'full'},
+      { path: '', redirectTo: '/vehicles', pathMatch: 'full'},
       { path: '**', redirectTo: '/page-not-found'}
     ])
   ],

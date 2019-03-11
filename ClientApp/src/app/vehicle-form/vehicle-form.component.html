@@ -1,112 +1,128 @@
 <div>
-  <h2 class="text-center">Vehicle Parameters</h2>
+  <h3 class="text-center">Vehicle Parameters</h3>
 </div>
-<!-- TODO: Temp for debug -->
-<p>
-  {{vehicle | json}}
-</p>
-<!-- Validation (regexp) for email, phone -->
-<!-- Validation for features and registration-->
+<!--Vehicle JSON Preview (DevMode)-->
+<p *ngIf="false">{{vehicle | json}}</p>
+<!-- TODO: Validation (regexp) for email, phone -->
 <form #f="ngForm" (ngSubmit) = "submit()">
-  <!--Make dropdown list-->
-  <div class="form-group">
-    <label for="make">Make</label>
-    <select id="make" class="form-control" (change)="onMakeChange()" [(ngModel)]="vehicle.makeId" name = "makeId" required #make="ngModel">
-      <option value = ""></option>
-      <option *ngFor="let m of makes" value="{{m.id}}">{{m.name}}</option>
-    </select>
-  </div>
-  <!--Error Handler-->
-  <div class="alert alert-danger" *ngIf="make.touched && !make.valid">
-    Required field.
-  </div>
-  
-  <!--Model dropdown list-->
-  <div class="form-group">
-    <label for="model">Model</label>
-    <select id="model" class="form-control" [(ngModel)]="vehicle.modelId" name = "modelId" required #model="ngModel">
-       <option value=""></option>
-       <option *ngFor="let m of models" value="{{m.id}}">{{m.name}}</option>
-    </select>
-  </div>
-  <!--Error Handler-->
-  <div class="alert alert-danger" *ngIf="model.touched && !model.valid">
+  <div class="well">
+    <!--Make dropdown list-->
+    <div class="form-group">
+      <label for="make">Make</label>
+      <select id="make" class="form-control" (change)="onMakeChange()" [(ngModel)]="vehicle.makeId" name = "makeId" required #make="ngModel">
+        <option value=""></option>
+        <option *ngFor="let m of makes" value="{{m.id}}">{{m.name}}</option>
+      </select>
+    </div>
+    <!--Error Handler-->
+    <div class="alert alert-danger" *ngIf="make.touched && !make.valid">
       Required field.
-  </div>
+    </div>
+    
+    <!--Model dropdown list-->
+    <div class="form-group">
+      <label for="model">Model</label>
+      <select [disabled]="isMakeDropDownDisabled" id="model" class="form-control" [(ngModel)]="vehicle.modelId" name = "modelId" required #model="ngModel">
+        <option value=""></option>
+        <option *ngFor="let m of models" value="{{m.id}}">{{m.name}}</option>
+      </select>
+    </div>
+    <!--Error Handler-->
+    <div class="alert alert-danger" *ngIf="model.touched && !model.valid">
+        Required field.
+    </div>
 
-  <!--Vehicle registration radiobuttons-->
-  <div>
-    <fieldset>
-      <legend>Is this vehicle registered?</legend>
-      <label for="registered" class="radio-inline">
-        <input type="radio" name ="isRegistered" id="registered" [value]="true" [(ngModel)]="vehicle.isRegistered"/> Yes
-      </label>
-      <label for="notRegistered" class="radio-inline">
-        <input type="radio" name ="isRegistered" id="notRegistered" [value]="false" [(ngModel)]="vehicle.isRegistered"/> No
-      </label>
-    </fieldset>
-  </div>
+    <!--Vehicle registration radiobuttons-->
+    <div>
+      <fieldset>
+        <legend>Is this vehicle registered?</legend>
+        <label for="registered" class="radio-inline">
+          <input type="radio" name ="isRegistered" id="registered" [value]="true" [(ngModel)]="vehicle.isRegistered"/> Yes
+        </label>
+        <label for="notRegistered" class="radio-inline">
+          <input type="radio" name ="isRegistered" id="notRegistered" [value]="false" [(ngModel)]="vehicle.isRegistered"/> No
+        </label>
+      </fieldset>
+    </div>
 
-  <br>
+    <br>
 
-  <!--Features checkboxes-->
-  <div>
-    <fieldset>
-      <legend>Features</legend>
+    <!--Features checkboxes-->
+    <button class="btn btn-default btn-block glyphicon" type="button" (click)="collapseFeatures()" [ngClass]="{'glyphicon-chevron-down': isCollapsed, 'glyphicon-chevron-up': !isCollapsed}">
+        Features
+    </button>
+    <div [hidden]="isCollapsed" [ngStyle]="{'overflow-y': 'scroll', 'height': '85px'}"> 
       <div class="checkbox" *ngFor="let f of features">
         <label for="{{f.id}}">
           <input type="checkbox" id="{{f.id}}" (change) = "onFeatureToggle(f.id, $event)" [checked]="vehicle.features.includes(f.id)"/>
           {{f.name}}
         </label>
       </div>
-    </fieldset>
+    </div>
   </div>
 
   <!-- Contacts Fields-->
-  <!-- TODO: Inline labels aligned-->
   <div>
-    <h2 class="text-center">Contact Information
-    </h2>
+    <h3 class="text-center">
+      Contact Information
+    </h3>
   </div>
 
-
-  <!--Contact Name-->
-  <div class="form-group">
-    <label for="contactName">Name: </label>
-    <input id="contactName" type="text" class="form-control" [(ngModel)]="vehicle.contact.name" name ="contactName" required #contactName="ngModel"/>
-  </div>
-  <!--Error Handler-->
-  <div class="alert alert-danger" *ngIf="contactName.touched && !contactName.valid">
-    Required field.
-  </div>
-
-  <!--Contact Phone-->
-  <div class="form-group" >
-    <label class="inline" for="contactPhone">Phone:</label>
-    <input type="text" id="contactPhone" class="form-control" [(ngModel)]="vehicle.contact.phone" name ="contactPhone" required pattern="{{phonePattern}}" #contactPhone="ngModel"/>
-  </div>
-  <!--Error Handler-->
-  <div class="alert alert-danger" *ngIf="(contactPhone.touched || contactPhone.dirty) && contactPhone.invalid">
-    <div *ngIf="contactPhone.hasError('required')">
+  <div class="well">
+    <!--Contact Name-->
+    <div class="form-group row">
+      <label  class="col-sm-2 col-form-label label-inline-centered" for="contactName"> Name: </label>
+      <div class="col-sm-10">
+        <input id="contactName" type="text" class="form-control" [(ngModel)]="vehicle.contact.name" name ="contactName" required #contactName="ngModel" placeholder="Firstname and lastname"/>
+      </div>
+    </div>
+    <!--Error Handler-->
+    <div class="alert alert-danger" *ngIf="contactName.touched && !contactName.valid">
       Required field.
     </div>
-    <div *ngIf="contactPhone.hasError('pattern')">
-      Invalid phone format.
+
+    <!--Contact Phone-->
+    <div class="form-group row" >
+      <label class="col-sm-2 col-form-label label-inline-centered" for="contactPhone">Phone:</label>
+      <div class="col-sm-10">
+        <input type="text" id="contactPhone" class="form-control" [(ngModel)]="vehicle.contact.phone" name ="contactPhone" required pattern="{{phonePattern}}" #contactPhone="ngModel" placeholder="Phone Number"/>
+      </div>
+    </div>
+    <!--Error Handler-->
+    <div class="alert alert-danger" *ngIf="(contactPhone.touched || contactPhone.dirty) && contactPhone.invalid">
+      <div *ngIf="contactPhone.hasError('required')">
+        Required field.
+      </div>
+      <div *ngIf="contactPhone.hasError('pattern')">
+        Invalid phone format.
+      </div>
+    </div>
+    <!--Contact Email-->
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label label-inline-centered" for="contactEmail">Email:</label>
+      <div class="col-sm-10">
+        <input type="text" id="contactEmail" class="form-control" [(ngModel)]="vehicle.contact.email" name ="contactEmail" pattern="{{emailPattern}}" #contactEmail = "ngModel" placeholder="Email Adress"/>
+      </div>
+    </div>
+    <!--Error Handler-->
+    <div class="alert alert-danger" *ngIf="(contactEmail.touched || contactEmail.dirty) && contactEmail.invalid">
+      Invalid email.
     </div>
   </div>
-  <!--Contact Email-->
-  <div class="form-group">
-    <label for="contactEmail">Email:</label>
-    <input type="text" id="contactEmail" class="form-control" [(ngModel)]="vehicle.contact.email" name ="contactEmail" pattern="{{emailPattern}}" #contactEmail = "ngModel"/>
-  </div>
-  <!--Error Handler-->
-  <div class="alert alert-danger" *ngIf="(contactEmail.touched || contactEmail.dirty) && contactEmail.invalid">
-    Invalid email.
-  </div>
+  <!--Buttons section-->
+  <div>
+    <button *ngIf="vehicle.id" class="btn btn-warning btn-block" (click)="refresh()" type="button">
+      Reset
+    </button>
     <button class="btn btn-success btn-block" [disabled]="!f.valid" type="submit">
-      Submit
+      {{vehicle.id ? 'Update' : 'Submit'}}
     </button>
     <button *ngIf="vehicle.id" class="btn btn-danger btn-block" (click)="delete()" type="button">
       Delete
     </button>
+    <button class="btn btn-primary btn-block" (click)="goBack()" type="button">
+      Go Back
+    </button>
+    <br>
+  </div>
 </form>

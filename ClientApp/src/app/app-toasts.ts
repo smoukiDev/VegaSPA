@@ -1,5 +1,5 @@
 import { ToastrManager } from 'ng6-toastr-notifications';
-import { Injectable } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
 
 @Injectable()
 export class Toasts {
@@ -8,18 +8,24 @@ export class Toasts {
         newestOnTop: false,
         showCloseButton: true,
         toastTimeout: 5000,
-        position: 'bottom-right',
+        position: 'top-right',
         animate: 'slideFromTop',
         maxShown: 3,
     };
 
-    constructor(private toastrManager: ToastrManager) {}
+    constructor(
+        private toastrManager: ToastrManager,
+        private ngZone: NgZone) {}
 
     displaySuccessToast(message: string, title: string = "Info") {
-        this.toastrManager.successToastr(message, title, this.options);
+        this.ngZone.run(() => {
+            this.toastrManager.successToastr(message, title, this.options);
+        });
     }
 
     displayErrorToast(message: string, title: string = "Error") {
-        this.toastrManager.errorToastr(message, title, this.options);
+        this.ngZone.run(() => {
+            this.toastrManager.errorToastr(message, title, this.options);
+        });
     }
 }

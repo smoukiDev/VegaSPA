@@ -1,7 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using VegaSPA.Core;
 using VegaSPA.Core.Models;
+using VegaSPA.Extensions;
 
 namespace VegaSPA.Data
 {
@@ -15,12 +20,8 @@ namespace VegaSPA.Data
 
         public async Task<Vehicle> GetCompleteVehicleAsync(int id)
         {
-            return await base.context.Vehicles
-                .Include(v => v.VehicleFeatures)
-                    .ThenInclude(vf => vf.Feature)
-                .Include(v => v.Model)
-                    .ThenInclude(m => m.Make)
-                .SingleOrDefaultAsync(v => v.Id == id);
+            var vehicles = await this.GetCompleteVehiclesAsync();
+            return vehicles.Items.FirstOrDefault(v => v.Id == id);
         }
 
         public async Task<Vehicle> GetWithVehicleFeaturesAsync(int id)
@@ -28,6 +29,43 @@ namespace VegaSPA.Data
             return await base.context.Vehicles
                 .Include(v => v.VehicleFeatures)
                 .SingleOrDefaultAsync(v => v.Id == id);
+        }
+
+        public async Task<QueryResult<Vehicle>> GetCompleteVehiclesAsync(VehicleQuery queryObject = null)
+        {
+            var result = new QueryResult<Vehicle>();
+
+            var query = base.context.Vehicles
+                .Include(v => v.VehicleFeatures)
+                    .ThenInclude(vf => vf.Feature)
+                .Include(v => v.Model)
+                    .ThenInclude(m => m.Make)
+                .AsQueryable();
+
+            queryObject = queryObject ?? new VehicleQuery();
+
+            if (queryObject.MakeId.HasValue)
+            {
+                query = query
+                    .Where(v => v.Model.MakeId == queryObject.MakeId.Value);
+            }
+
+            var columnMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
+            {
+                ["make"] = (v) => v.Model.Make.Name,
+                ["model"] = (v) => v.Model.Name,
+                ["contactName"] = (v) => v.ContactInfo.ContactName,
+            };
+
+            query = query.ApplyOrdering(queryObject, columnMap);
+
+            result.TotalItems = await query.CountAsync();
+
+            result.Items = await query
+                .ApplyPagination(queryObject)
+                .ToListAsync();
+
+            return result;
         }
     }
 }

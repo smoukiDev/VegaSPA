@@ -1,0 +1,11 @@
+.table-text-valign {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.glyphicon-lg {
+    font-size: 1.5em;
+}
+
+.th-pointer {
+    cursor: pointer;
+}

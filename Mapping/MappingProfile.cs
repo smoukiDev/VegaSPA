@@ -11,6 +11,8 @@ namespace VegaSPA.Mapping
         public MappingProfile()
         {
             // Domain to API Resource
+            CreateMap(typeof(QueryResult<>), typeof(QueryResult<>));
+            CreateMap<VehicleQuery, VehicleQueryResourse>();
             CreateMap<Make, MakeResource>();
             CreateMap<Make, KeyValuePairResource>();
             CreateMap<Model, KeyValuePairResource>();

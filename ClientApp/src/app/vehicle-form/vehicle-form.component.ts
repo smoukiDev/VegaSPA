@@ -1,7 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import 'rxjs/add/observable/forkJoin';
+import { forkJoin } from 'rxjs';
 import * as _ from 'underscore';
 import { VehicleService } from '../../services/vehicle.service';
 import { Toasts } from '../app-toasts';
@@ -17,13 +16,15 @@ import { SaveVehicle } from './../models/SaveVehicle';
 export class VehicleFormComponent implements OnInit {
   private readonly _emailPattern: string;
   private readonly _phonePattern: string;
-  private makes: any[];
-  private features: any[];
-  private models: any[];
-  private vehicle: SaveVehicle = {
+  isCollapsed = true;
+  isMakeDropDownDisabled = true;
+  makes: any[];
+  features: any[];
+  models: any[];
+  vehicle: SaveVehicle = {
     id: 0,
-    makeId: 0,
-    modelId: 0,
+    makeId: null,
+    modelId: null,
     isRegistered: false,
     features: [],
     contact: {
@@ -40,13 +41,13 @@ export class VehicleFormComponent implements OnInit {
     private router: Router ) {
       this._emailPattern = '[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}';
       this._phonePattern = '[0-9]{10}';
-
       route.params.subscribe(p => {
-        //TODO: Find permanent solution to fix routes mess
-        if(this.router.url != '/vehicles/new' && !Number(p.id))
-            this.router.navigate(['**']);
+        // TODO: Find permanent solution to fix routes mess
+        if (this.router.url != '/vehicles/new' && !Number(p.id)) {
+          this.router.navigate(['**']);
+        }
 
-        if(Number(p.id)) {
+        if (Number(p.id)) {
           this.vehicle.id = +p['id']
         }
       });
@@ -62,13 +63,14 @@ export class VehicleFormComponent implements OnInit {
       sources.push(this.vehicleService.getVehicle(this.vehicle.id));
     }
 
-    Observable.forkJoin(sources).subscribe(
+    forkJoin(sources).subscribe(
     data => {
       this.makes = data[0] as any;
       this.features = data[1] as any;
       if (this.vehicle.id) {
         this.setVehicle(data[2] as Vehicle);
         this.populateModels();
+        this.SetModelDropDownListVisability();
       }
     },
     error => {
@@ -80,6 +82,7 @@ export class VehicleFormComponent implements OnInit {
   }
 
   onMakeChange() {
+    this.SetModelDropDownListVisability();
     this.populateModels();
     delete this.vehicle.modelId;
   }
@@ -94,7 +97,7 @@ export class VehicleFormComponent implements OnInit {
   }
 
   submit() {
-    if(this.vehicle.id) {
+    if (this.vehicle.id) {
       this.updateVehicle();
     } else {
       this.createVehicle();
@@ -105,6 +108,18 @@ export class VehicleFormComponent implements OnInit {
     this.deleteVehicle();
   }
 
+  refresh() {
+    this.vehicleService.getVehicle(this.vehicle.id)
+      .subscribe(data => {
+        this.setVehicle(data as Vehicle);
+        this.populateModels();
+      })
+  }
+
+  goBack() {
+    this.router.navigate(['/vehicles']);
+  }
+
   get emailPattern(): string {
     return this._emailPattern;
   }
@@ -113,7 +128,7 @@ export class VehicleFormComponent implements OnInit {
     return this._phonePattern;
   }
 
-  private setVehicle(vehicle : Vehicle) {
+  private setVehicle(vehicle: Vehicle) {
     this.vehicle.id = vehicle.id;
     this.vehicle.makeId = vehicle.make.id;
     this.vehicle.modelId = vehicle.model.id;
@@ -122,9 +137,12 @@ export class VehicleFormComponent implements OnInit {
     this.vehicle.features = _.pluck(vehicle.features, 'id');
   }
 
+  collapseFeatures() {
+    this.isCollapsed = this.isCollapsed ? false : true;
+  }
+
   private populateModels() {
     let selectedMake = this.makes.find(m => m.id == this.vehicle.makeId);
-    // TODO: Disabled model dropdown depend on make drop down
     this.models = selectedMake ? selectedMake.models : [];
   }
 
@@ -137,8 +155,7 @@ export class VehicleFormComponent implements OnInit {
         if (e.status === 400) {
           let featuresErrors = e.error.Features as string[];
           this.toasts.displayErrorToast(featuresErrors[0]);
-        }
-        else {
+        } else {
           throw e;
         }
       });
@@ -149,17 +166,25 @@ export class VehicleFormComponent implements OnInit {
       .subscribe(data => {
         let message = 'Successfully update:)';
         this.toasts.displaySuccessToast(message);
-      })
+      });
   }
 
   private deleteVehicle() {
-    if(confirm('Are you sure?')) {
+    if (confirm('Are you sure?')) {
       this.vehicleService.deleteVehicle(this.vehicle.id)
         .subscribe( data => {
           let message = 'Successfully deleted:)';
           this.toasts.displaySuccessToast(message);
           this.router.navigate(['/home']);
         });
+    }
+  }
+
+  private SetModelDropDownListVisability() {
+    if (this.vehicle.makeId.toString() == "") {
+      this.isMakeDropDownDisabled = true;
+    } else{
+      this.isMakeDropDownDisabled = false;
     }
   }
 }
