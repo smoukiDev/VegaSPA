@@ -61,6 +61,7 @@ export class PaginationComponent implements OnInit, OnChanges {
     }
   }
 
+  // TODO: Dig in method logic
   private getPagesRange() {
     const c = Math.ceil(this.totalItems / this.pageSize);
     const p = this.currentPage || 1;
